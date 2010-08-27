@@ -12,6 +12,14 @@
             </intent-filter>
         </activity>
 
+	<receiver android:name=".BalancepilWidgetProvider">
+		<meta-data android:name="android.appwidget.provider"
+			android:resource="@xml/balancepil_widget_provider" />
+		<intent-filter>
+			<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+		</intent-filter>
+	</receiver> 
+
     </application>
 
 
