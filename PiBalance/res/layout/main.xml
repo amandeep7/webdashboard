@@ -4,6 +4,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
+    <Button android:id="@+id/sendSmsBtn" android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" android:text="Send balance request" /> 
+    <Button android:id="@+id/delSmsBtn" android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" android:text="Delete last message" />    
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
