@@ -2,6 +2,9 @@ package name.pilgr.android.pibalance;
 
 import name.pilgr.android.pibalance.R;
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +24,7 @@ public class PiBalance extends Activity {
         
         Button sendBtn = (Button)findViewById(R.id.sendSmsBtn); 
         Button delBtn = (Button)findViewById(R.id.delSmsBtn);
+        Button ussdBtn = (Button)findViewById(R.id.sendUSSDBtn);
         
         sendBtn.setOnClickListener(new OnClickListener(){ 
  
@@ -43,17 +47,44 @@ public class PiBalance extends Activity {
         	 
             @Override 
             public void onClick(View view) { 
-            	 //Delete last message
+            	//Delete last message
         		Uri uriSms = Uri.parse("content://sms");
         		Cursor c = getContentResolver().query(uriSms, null,null,null,null); 
         		//int id = c.getInt(0);
         		int thread_id = c.getInt(0); //get the thread_id
         		getContentResolver().delete(Uri.parse("content://sms/conversations/" + thread_id),null,null);
-        		Log.d("MySMSMonitor", "SMS Message Received.");                  
+        		Log.d("MySMSMonitor", "SMS Message Received.");   
+        		
+            	
             }}); 
+        
+        ussdBtn.setOnClickListener(new OnClickListener(){ 
+       	 
+            @Override 
+            public void onClick(View view) { 
+            	 call("*111" + Uri.encode("#"));                   
+            }
+            });
     
      
     }
+    
+    private void call(String ussdCode){
+    	 
+        try { 
+            startActivityForResult(new Intent("android.intent.action.CALL", 
+                		Uri.parse("tel:" + ussdCode)), 1); 
+        } catch (Exception eExcept) { 
+        	eExcept.printStackTrace();  
+        }
+         
+    }
+    
+    @Override 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) { 
+    	Toast.makeText(PiBalance.this, "\nUSSD: " + requestCode + " " + resultCode + " " + data,  
+                Toast.LENGTH_LONG).show(); 
+    } 
     
     private void sendSmsMessage(String address,String message)throws Exception 
     { 
