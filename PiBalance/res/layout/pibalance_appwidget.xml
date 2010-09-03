@@ -4,7 +4,7 @@
 	android:layout_width = "72dp"
     > 
 <TextView   
-    android:id="@+id/bdw_w_name" 
+    android:id="@+id/balance" 
     android:layout_width="fill_parent"  
     android:layout_height="fill_parent"  
     android:text="$734"

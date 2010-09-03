@@ -2,29 +2,34 @@ package name.pilgr.android.pibalance;
 
 import name.pilgr.android.pibalance.R;
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PiBalance extends Activity {
-    /** Called when the activity is first created. */
+	
+	public static final String PREFS_NAME = "currentData";
+
+	TextView dbgTxt;
+	
+	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+            	
+    	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
         Button sendBtn = (Button)findViewById(R.id.sendSmsBtn); 
-        Button delBtn = (Button)findViewById(R.id.delSmsBtn);
+        Button dbgBtn = (Button)findViewById(R.id.dbgBtn);
         Button ussdBtn = (Button)findViewById(R.id.sendUSSDBtn);
+        dbgTxt = (TextView)findViewById(R.id.dbgTxt);
         
         sendBtn.setOnClickListener(new OnClickListener(){ 
  
@@ -43,18 +48,13 @@ public class PiBalance extends Activity {
                 } 
             }}); 
         
-        delBtn.setOnClickListener(new OnClickListener(){ 
+        dbgBtn.setOnClickListener(new OnClickListener(){ 
         	 
             @Override 
             public void onClick(View view) { 
-            	//Delete last message
-        		Uri uriSms = Uri.parse("content://sms");
-        		Cursor c = getContentResolver().query(uriSms, null,null,null,null); 
-        		//int id = c.getInt(0);
-        		int thread_id = c.getInt(0); //get the thread_id
-        		getContentResolver().delete(Uri.parse("content://sms/conversations/" + thread_id),null,null);
-        		Log.d("MySMSMonitor", "SMS Message Received.");   
-        		
+            	SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                String resp = settings.getString("lastResponse", "nothing");
+                dbgTxt.setText(resp);
             	
             }}); 
         
