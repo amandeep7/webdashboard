@@ -6,11 +6,12 @@
     >
     <Button android:id="@+id/sendSmsBtn" android:layout_width="fill_parent" 
         android:layout_height="wrap_content" android:text="Send balance request" /> 
-    <Button android:id="@+id/delSmsBtn" android:layout_width="fill_parent" 
-        android:layout_height="wrap_content" android:text="Delete last message" />  
+    <Button android:id="@+id/dbgBtn" android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" android:text="Some debug" />  
     <Button android:id="@+id/sendUSSDBtn" android:layout_width="fill_parent" 
         android:layout_height="wrap_content" android:text="Send USSD request" />  
 <TextView  
+    android:id="@+id/dbgTxt"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
     android:text="@string/hello"
