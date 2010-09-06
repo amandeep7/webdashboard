@@ -17,10 +17,17 @@
 			android:resource="@xml/pibalance_widget_provider" />
 		<intent-filter>
 			<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+			<action android:name="name.pilgr.android.pibalance.intent.action.REFRESH_WIDGET" />
+		</intent-filter>
+	</receiver>
+	
+	<receiver android:name=".PiBalanceWidgetRefresher">
+		<intent-filter>
+			<action android:name="name.pilgr.android.pibalance.intent.action.REFRESH_WIDGET" />
 		</intent-filter>
 	</receiver> 
 	
-	<receiver android:name=".SMSResponseMonitor"> 
+	<receiver android:name=".SMSResponseReceiver"> 
 	    <intent-filter> 
 	        <action android:name="android.provider.Telephony.SMS_RECEIVED"/> 
 	    </intent-filter> 

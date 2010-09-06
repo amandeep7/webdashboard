@@ -4,22 +4,17 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
 
-public class SMSResponseMonitor extends BroadcastReceiver {
+public class SMSResponseReceiver extends BroadcastReceiver {
 	
 	private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
-	public static final String PREFS_NAME = "currentData";
+	private BalanceModel bm;
 	
-	/*At this time other application process and store SMS*/
-	private static final int SAVE_SMS_TIMEOUT = 5000;
-	private static final String ADDRESS_RESPONSE = "5433";
-
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String msgAddress = "";
@@ -35,7 +30,7 @@ public class SMSResponseMonitor extends BroadcastReceiver {
 				messages[0] = SmsMessage.createFromPdu((byte[]) pduArray[0]);
 				msgAddress = messages[0].getOriginatingAddress();
 				msgBody = messages[0].getMessageBody().toString();
-				if (msgAddress.equalsIgnoreCase(ADDRESS_RESPONSE)) {
+				if (msgAddress.equalsIgnoreCase(C.ADDRESS_RESPONSE)) {
 					isExpectedMsg = true;
 				}
 			}
@@ -43,10 +38,11 @@ public class SMSResponseMonitor extends BroadcastReceiver {
 			// Yes, it's expected message
 			if (isExpectedMsg) {
 
-				saveResponse(context, msgBody);
+				bm = new BalanceModel(context);
+				bm.storeResponse(msgBody);
 				// Waiting for processing message by default SMS/MMS Manager
 				try {
-					Thread.sleep(SAVE_SMS_TIMEOUT);
+					Thread.sleep(C.SAVE_SMS_TIMEOUT);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
@@ -79,7 +75,7 @@ public class SMSResponseMonitor extends BroadcastReceiver {
 	private void deleteMessage(Context context, SmsMessage msg) {
 		Uri deleteUri = Uri.parse("content://sms");
 
-		String WHERE_CONDITION = "read = 0 and address = " + ADDRESS_RESPONSE;
+		String WHERE_CONDITION = "read = 0 and address = " + C.ADDRESS_RESPONSE;
 		String SORT_ORDER = "date DESC";
 		Cursor c = context.getContentResolver().query(deleteUri,
 				new String[] { "_id", "thread_id", "address", "read" },
@@ -90,13 +86,6 @@ public class SMSResponseMonitor extends BroadcastReceiver {
 			context.getContentResolver().delete(Uri.parse(delMsgUri), null,
 					null);
 		}
-	}
-	
-	private void saveResponse(Context ctx, String msgBody){
-		SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
-	      SharedPreferences.Editor editor = settings.edit();
-	      editor.putString("lastResponse", msgBody);
-	      editor.commit();
 	}
 
 }

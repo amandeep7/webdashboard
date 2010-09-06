@@ -2,11 +2,10 @@ package name.pilgr.android.pibalance;
 
 import name.pilgr.android.pibalance.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,14 +14,15 @@ import android.widget.Toast;
 
 public class PiBalance extends Activity {
 	
-	public static final String PREFS_NAME = "currentData";
-
 	TextView dbgTxt;
+	BalanceModel bm;
 	
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-            	
+        
+    	bm = new BalanceModel((Context)this);
+    	
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
@@ -30,15 +30,14 @@ public class PiBalance extends Activity {
         Button dbgBtn = (Button)findViewById(R.id.dbgBtn);
         Button ussdBtn = (Button)findViewById(R.id.sendUSSDBtn);
         dbgTxt = (TextView)findViewById(R.id.dbgTxt);
-        
+                
         sendBtn.setOnClickListener(new OnClickListener(){ 
  
             @Override 
             public void onClick(View view) { 
                 
                 try { 
-                    sendSmsMessage( 
-                        "5016","CHECKBALANCE"); 
+                    bm.sendSMSRequest();
                     Toast.makeText(PiBalance.this, "SMS Sent",  
                         Toast.LENGTH_LONG).show(); 
                 } catch (Exception e) { 
@@ -52,9 +51,7 @@ public class PiBalance extends Activity {
         	 
             @Override 
             public void onClick(View view) { 
-            	SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-                String resp = settings.getString("lastResponse", "nothing");
-                dbgTxt.setText(resp);
+                dbgTxt.setText(bm.getLastResponse()+"!");
             	
             }}); 
         
@@ -80,15 +77,4 @@ public class PiBalance extends Activity {
          
     }
     
-    @Override 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) { 
-    	Toast.makeText(PiBalance.this, "\nUSSD: " + requestCode + " " + resultCode + " " + data,  
-                Toast.LENGTH_LONG).show(); 
-    } 
-    
-    private void sendSmsMessage(String address,String message)throws Exception 
-    { 
-        SmsManager smsMgr = SmsManager.getDefault(); 
-        smsMgr.sendTextMessage(address, null, message, null, null); 
-    }
 }

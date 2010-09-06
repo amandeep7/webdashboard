@@ -1,0 +1,8 @@
+Which data I need from mobile operator:
+1. The request number
+2. The message for request
+3. The sender number for waiting response
+4. The rules for parse message
+5. The currency symbol
+6. The mobile operator id
+7. 

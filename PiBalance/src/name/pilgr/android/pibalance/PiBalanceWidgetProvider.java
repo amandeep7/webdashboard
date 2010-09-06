@@ -7,8 +7,7 @@ import android.widget.RemoteViews;
 
 public class PiBalanceWidgetProvider extends AppWidgetProvider {
 
-	public static final String PREFS_NAME = "currentData";
-	private BalanceModel balModel;
+	private BalanceModel bm;
 
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager,
 			int[] appWidgetIds) {
@@ -25,13 +24,16 @@ public class PiBalanceWidgetProvider extends AppWidgetProvider {
 		
 		RemoteViews views = new RemoteViews(context.getPackageName(),  
                 R.layout.pibalance_appwidget);
-		String bal = balModel.getCurrentBalance();
+		String bal = bm.getCurrentBalance();
 		views.setTextViewText(R.id.balance, bal);
 		appWidgetManager.updateAppWidget(appWidgetId, views);
+		
+		bm.saveAppWidgetId(appWidgetId);
 
 	}
 	
 	private void init(Context context){
-		balModel = new BalanceModel(context);
+		bm = new BalanceModel(context);
 	}
+	
 }
