@@ -32,6 +32,12 @@
 	        <action android:name="android.provider.Telephony.SMS_RECEIVED"/> 
 	    </intent-filter> 
 	</receiver>
+	
+	<receiver android:name=".PhoneServiceReceiver"> 
+	    <intent-filter> 
+	        <action android:name="android.intent.action.NEW_OUTGOING_CALL"/> 
+	    </intent-filter> 
+	</receiver>
 
     </application>
 
@@ -40,7 +46,6 @@
 <uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
 <uses-permission android:name="android.permission.READ_SMS"></uses-permission>
 <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
-
-
+<uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"></uses-permission>
 <uses-permission android:name="android.permission.WRITE_SMS"></uses-permission>
 </manifest> 
