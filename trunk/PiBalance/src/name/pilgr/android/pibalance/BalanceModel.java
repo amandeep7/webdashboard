@@ -55,6 +55,7 @@ public class BalanceModel {
 	}
 	
 	public void sendSMSRequest(){
+		
 		SmsManager smsMgr = SmsManager.getDefault(); 
         smsMgr.sendTextMessage(C.REQUEST_ADDRESS, null, C.REQUEST_MESSAGE, null, null);
 	}

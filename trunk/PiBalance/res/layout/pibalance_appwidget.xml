@@ -2,25 +2,26 @@
 	android:orientation="vertical" 
 	android:layout_height = "72dp"
 	android:layout_width = "72dp"
-	android:background = "@drawable/widget_mts_ua"> 
+	android:background = "@drawable/box1"> 
     
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="horizontal" 
 		android:layout_height = "30dp"
 		android:layout_width = "72dp"  
+		
 		 > 
-		<TextView   
-		    android:id="@+id/arrow" 
-		    android:layout_width="wrap_content" 
-		    android:layout_height="fill_parent"  
-		    android:layout_weight = "0.2"
-		    android:padding = "1dp"
-		    android:text="↑"
-		    android:layout_gravity="left"
-		    android:gravity = "right"
-		    android:textSize="23dp"
-		    android:textColor = "#000000"  
-		    />
+<!--		<TextView   -->
+<!--		    android:id="@+id/arrow" -->
+<!--		    android:layout_width="wrap_content" -->
+<!--		    android:layout_height="fill_parent"  -->
+<!--		    android:layout_weight = "0.2"-->
+<!--		    android:padding = "1dp"-->
+<!--		    android:text="↑"-->
+<!--		    android:layout_gravity="left"-->
+<!--		    android:gravity = "right"-->
+<!--		    android:textSize="23dp"-->
+<!--		    android:textColor = "#000000"  -->
+<!--		    />-->
 		<TextView   
 		    android:id="@+id/today" 
 		    android:layout_width="wrap_content" 
