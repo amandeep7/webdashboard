@@ -52,6 +52,7 @@ public class PiBalance extends Activity {
             @Override 
             public void onClick(View view) { 
                 dbgTxt.setText(bm.getLastResponse()+"!");
+                Alerts.showAlert(bm.getLastResponse(), getCtx());
             	
             }}); 
         
@@ -73,8 +74,11 @@ public class PiBalance extends Activity {
                 		Uri.parse("tel:" + ussdCode)), 1); 
         } catch (Exception eExcept) { 
         	eExcept.printStackTrace();  
-        }
-         
+        }    
+    }
+    
+    private Context getCtx(){
+    	return (Context)this;
     }
     
 }
