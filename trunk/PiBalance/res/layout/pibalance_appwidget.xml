@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" 
 	android:layout_height = "75dp"
-	android:layout_width = "74dp"	
+	android:layout_width = "74dp"
+	android:id = "@+id/widget"	
 	> 
     
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
