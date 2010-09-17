@@ -1,5 +1,6 @@
 package name.pilgr.android.pibalance;
 
+import name.pilgr.android.pibalance.model.BalanceModel;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
