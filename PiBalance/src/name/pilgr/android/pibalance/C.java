@@ -7,7 +7,7 @@ public class C {
 	public static final String PREFS_NAME = "currentData";
 	
 	/*At this time other application (SMS/MMS manager) process and store SMS*/
-	public static final int SAVE_SMS_TIMEOUT = 5000;
+	public static final int SAVE_SMS_TIMEOUT = 2000;
 	
 	public static final String REQUEST_ADDRESS = "5016";
 	public static final String REQUEST_MESSAGE = "CHECKBALANCE";

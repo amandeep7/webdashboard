@@ -1,10 +1,10 @@
 package name.pilgr.android.pibalance;
 
+import name.pilgr.android.pibalance.model.BalanceModel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.SmsMessage;
@@ -20,19 +20,26 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 		String msgAddress = "";
 		String msgBody = "";
 		boolean isExpectedMsg = false;
+		SmsMessage[] messages = null;
+		
 		if (intent != null && intent.getAction() != null
 				&& ACTION.compareToIgnoreCase(intent.getAction()) == 0) {
 
-			// Do we really need this message?
-			Object[] pduArray = (Object[]) intent.getExtras().get("pdus");
-			SmsMessage[] messages = new SmsMessage[pduArray.length];
-			if (pduArray.length > 0) {
-				messages[0] = SmsMessage.createFromPdu((byte[]) pduArray[0]);
-				msgAddress = messages[0].getOriginatingAddress();
-				msgBody = messages[0].getMessageBody().toString();
-				if (msgAddress.equalsIgnoreCase(C.ADDRESS_RESPONSE)) {
-					isExpectedMsg = true;
+			try {
+				// Do we really need this message?
+				Object[] pduArray = (Object[]) intent.getExtras().get("pdus");
+				messages = new SmsMessage[pduArray.length];
+				if (pduArray.length > 0) {
+					messages[0] = SmsMessage
+							.createFromPdu((byte[]) pduArray[0]);
+					msgAddress = messages[0].getOriginatingAddress();
+					msgBody = messages[0].getMessageBody().toString();
+					if (msgAddress.equalsIgnoreCase(C.ADDRESS_RESPONSE)) {
+						isExpectedMsg = true;
+					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
 			// Yes, it's expected message
@@ -67,7 +74,7 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 			NotificationManager notManager = (NotificationManager) mmsContext
 					.getSystemService(Context.NOTIFICATION_SERVICE);
 			notManager.cancel(123);
-		} catch (NameNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

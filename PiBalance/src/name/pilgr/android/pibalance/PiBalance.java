@@ -1,6 +1,7 @@
 package name.pilgr.android.pibalance;
 
 import name.pilgr.android.pibalance.R;
+import name.pilgr.android.pibalance.model.BalanceModel;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -52,8 +53,8 @@ public class PiBalance extends Activity {
             @Override 
             public void onClick(View view) { 
                 dbgTxt.setText(bm.getLastResponse()+"!");
-                Alerts.showAlert(bm.getLastResponse(), getCtx());
-            	
+                //Alerts.showAlert(bm.getLastResponse(), getCtx());
+                bm.dbgSetBeginingBalance(10);
             }}); 
         
         ussdBtn.setOnClickListener(new OnClickListener(){ 
@@ -81,4 +82,5 @@ public class PiBalance extends Activity {
     	return (Context)this;
     }
     
+      
 }

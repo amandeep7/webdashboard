@@ -1,5 +1,6 @@
 package name.pilgr.android.pibalance;
 
+import name.pilgr.android.pibalance.model.BalanceModel;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -24,25 +25,22 @@ public class PiBalanceWidgetProvider extends AppWidgetProvider {
 
 	public void updateAppWidget(Context context,
 			AppWidgetManager appWidgetManager, int appWidgetId) {
-		
-		RemoteViews views = new RemoteViews(context.getPackageName(),  
-                R.layout.pibalance_appwidget);
-		String bal = bm.getCurrentBalance();
-		views.setTextViewText(R.id.balance, bal);
-		
-		Intent intent = new Intent(context, ClickWidgetActivity.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-		Log.d("DEBUG", "After create intent");
-		views.setOnClickPendingIntent(R.id.widget, pendingIntent);
-		
-		appWidgetManager.updateAppWidget(appWidgetId, views);
-		
+		if (bm.isInit()){
+			bm.sendSMSRequest();
+		}
 		bm.saveAppWidgetId(appWidgetId);
-
+		notifyWidgets(context);
 	}
 	
 	private void init(Context context){
 		bm = new BalanceModel(context);
+	}
+	
+	//Send broadcast to notify widgets about changes
+	private void notifyWidgets(Context context){
+		Intent i = new Intent();
+		i.setAction(C.REFRESH_INTENT);
+		context.sendBroadcast(i);
 	}
 	
 }

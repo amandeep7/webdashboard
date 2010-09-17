@@ -1,5 +1,6 @@
 package name.pilgr.android.pibalance;
 
+import name.pilgr.android.pibalance.model.BalanceModel;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.telephony.PhoneStateListener;
