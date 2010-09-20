@@ -1,8 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" 
-	android:layout_height = "75dp"
+	android:layout_height = "78dp"
 	android:layout_width = "74dp"
 	android:id = "@+id/widget"	
+
 	> 
     
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,6 +11,7 @@
 		android:layout_height = "30dp"
 		android:layout_width = "72dp"  
 		android:gravity ="right|bottom"
+		android:background = "@drawable/lifeua"
 		 > 
 		<TextView   
 		    android:id="@+id/today" 
@@ -32,7 +34,7 @@
     </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="horizontal" 
-		android:layout_height = "45dp"
+		android:layout_height = "fill_parent"
 		android:layout_width = "74dp"
 		android:gravity = "bottom|center" 
 		>		  
