@@ -1,6 +1,9 @@
 package name.pilgr.android.pibalance;
 
+import java.util.Date;
+
 import name.pilgr.android.pibalance.model.BalanceModel;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -34,6 +37,17 @@ public class PiBalanceWidgetProvider extends AppWidgetProvider {
 	
 	private void init(Context context){
 		bm = new BalanceModel(context);
+		
+		AlarmManager mgr =(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		Intent i=new Intent(context, PiBalanceWidgetRefresher.class);
+		PendingIntent pi=PendingIntent.getBroadcast(context, 0, i, 0);
+		long wakeTime = new Date().getTime();
+		Log.d("DEBUG", new Date(wakeTime).toString());
+		wakeTime =  wakeTime / (1000*60*60); // H
+		wakeTime = wakeTime / 24; //Day
+		wakeTime = (wakeTime + 1) * 24*60*60*1000 + 1000*60; //It is the 00:01:00 of the next day
+		Log.d("DEBUG", new Date(wakeTime).toString());
+		mgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, wakeTime, pi);
 	}
 	
 	//Send broadcast to notify widgets about changes
