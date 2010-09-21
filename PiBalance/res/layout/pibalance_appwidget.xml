@@ -11,7 +11,6 @@
 		android:layout_height = "30dp"
 		android:layout_width = "72dp"  
 		android:gravity ="right|bottom"
-		android:background = "@drawable/lifeua"
 		 > 
 		<TextView   
 		    android:id="@+id/today" 
