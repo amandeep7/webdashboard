@@ -1,30 +1,29 @@
-package name.pilgr.android.pibalance;
+package name.pilgr.android.pibalance.services;
 
-import name.pilgr.android.pibalance.model.BalanceModel;
 import android.appwidget.AppWidgetManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.TextView;
+import name.pilgr.android.pibalance.R;
+import name.pilgr.android.pibalance.model.BalanceModel;
+import name.pilgr.android.pibalance.utils.WakefulIntentService;
 
-public class PiBalanceWidgetRefresher extends BroadcastReceiver {
-	Context ctx;
-	private final static String TAG = "DEBUG";
+public class RefreshService extends WakefulIntentService {
+	private static final String TAG = RefreshService.class.getSimpleName();
+	
+	public RefreshService() {
+		super(RefreshService.class.getSimpleName());		
+	}
 
 	@Override
-	public void onReceive(Context context, Intent intent) {
-		ctx = context;
-		Log.d(TAG, "Receive refresher intent");
-		
-		if (intent.getAction().equals(C.REFRESH_INTENT)) {
-			refreshByNewData();
-		}
-		
+	protected void doWakefulWork(Intent intent) {
+		Log.d(TAG, "Really refreshing widget");
+		refreshByNewData(getApplicationContext());
 	}
 	
-	private void refreshByNewData(){
+	private void refreshByNewData(Context ctx){
 		AppWidgetManager awm = AppWidgetManager.getInstance(ctx);
 		BalanceModel bm = new BalanceModel(ctx);
 		RemoteViews views = new RemoteViews(ctx.getPackageName(),
@@ -44,17 +43,12 @@ public class PiBalanceWidgetRefresher extends BroadcastReceiver {
 			views.setViewVisibility(R.id.today, TextView.INVISIBLE);
 		} else {
 			views.setViewVisibility(R.id.today, TextView.VISIBLE);
-		}
-		
+		}		
 
 		int awID = bm.getAppWidgetId();
 		if (awID >= 0) {
 			awm.updateAppWidget(awID, views);
 		}
 	}
-	
-	//Just hide today box after midnight
-	private void hideTodayBox(){
-		
-	}
+
 }

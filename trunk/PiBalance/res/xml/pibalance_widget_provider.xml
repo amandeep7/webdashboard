@@ -1,6 +1,5 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="74dp"
     android:minHeight="78dp"
-    android:updatePeriodMillis="3600000"
     android:initialLayout="@layout/pibalance_appwidget" >
 </appwidget-provider>

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import name.pilgr.android.pibalance.C;
+import name.pilgr.android.pibalance.services.RefreshService;
 
 import android.content.Context;
 import android.content.Intent;
@@ -61,7 +62,14 @@ public class BalanceModel {
 			Editor editor = s.edit();
 			editor.putFloat(PR_BEGINNING_BALANCE_TODAY, beginBalToday);
 			editor.commit();
-		}		
+		}
+		
+		//If we have old data today we cann't calculate the balance change
+		long todayDay = (new Date()).getTime()/(1000*60*60*24);
+		if (currDay != todayDay){
+			return 0;
+		}
+			
 		return currBalance - beginBalToday;
 	}
 	
@@ -121,9 +129,8 @@ public class BalanceModel {
 	
 	//Send broadcast to notify widgets about changes
 	private void notifyWidgets(){
-		Intent i = new Intent();
-		i.setAction(C.REFRESH_INTENT);
-		context.sendBroadcast(i);
+		 Intent updateIntent = new Intent(context, RefreshService.class);
+         context.startService(updateIntent);
 	}
 	
 	public void saveAppWidgetId(int id){
@@ -135,7 +142,7 @@ public class BalanceModel {
 	
 	public int getAppWidgetId(){
 		SharedPreferences settings = context.getSharedPreferences(C.PREFS_NAME, 0);
-        int awID = settings.getInt(PR_WIDGET_ID, -1);
+        int awID = settings.getInt(PR_WIDGET_ID, -100500);
         return awID;
 	}
 	
