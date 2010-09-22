@@ -149,13 +149,6 @@ public class BalanceModel {
         return awID;
 	}
 	
-	public void dbgSetBeginingBalance(float bal){
-		SharedPreferences settings = context.getSharedPreferences(C.PREFS_NAME, 0);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putFloat(PR_BEGINNING_BALANCE_TODAY, bal);
-		editor.commit();
-	}
-	
 	public boolean isInit(){
 		SharedPreferences s = context.getSharedPreferences(C.PREFS_NAME, 0);
 		if (s.getInt(PR_WIDGET_ID, -100500) == -100500){
