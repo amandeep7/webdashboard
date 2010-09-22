@@ -1,5 +1,6 @@
-package name.pilgr.android.pibalance;
+package name.pilgr.android.pibalance.receivers;
 
+import name.pilgr.android.pibalance.C;
 import name.pilgr.android.pibalance.model.BalanceModel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -7,21 +8,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
 import android.telephony.SmsMessage;
+import android.util.Log;
 import android.widget.Toast;
 
 public class SMSResponseReceiver extends BroadcastReceiver {
-	
+	private static final String TAG = SMSResponseReceiver.class.getSimpleName();
 	private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 	private BalanceModel bm;
-	
+	private Context ctx;
+	private SmsMessage currSms;
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String msgAddress = "";
 		String msgBody = "";
 		boolean isExpectedMsg = false;
 		SmsMessage[] messages = null;
-		
+		ctx = context;
+		;
+
 		if (intent != null && intent.getAction() != null
 				&& ACTION.compareToIgnoreCase(intent.getAction()) == 0) {
 
@@ -45,18 +52,29 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 			// Yes, it's expected message
 			if (isExpectedMsg) {
 
+				Log.d(TAG, "Initial store response");
 				bm = new BalanceModel(context);
 				bm.storeResponse(msgBody);
+				Log.d(TAG, "Response stored");
 				// Waiting for processing message by default SMS/MMS Manager
-				try {
-					Thread.sleep(C.SAVE_SMS_TIMEOUT);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-
-				deleteMessage(context, messages[0]);
-				// Dirty tricks (available only on Android 1.5-1.6)
-				cancelNotification(context);
+				// try {
+				// Thread.sleep(C.SAVE_SMS_TIMEOUT);
+				// } catch (InterruptedException e1) {
+				// e1.printStackTrace();
+				// }
+				// Log.d(TAG,"SLeeping done");
+				// SLEEP 2 SECONDS HERE ...
+				currSms = messages[0];
+				Handler handler = new Handler();
+				handler.postDelayed(new Runnable() {
+					public void run() {
+						Log.d(TAG, "Start post delayed processing");
+						deleteMessage(ctx, currSms);
+						// Dirty tricks (available only on Android 1.5-1.6)
+						cancelNotification(ctx);
+						Log.d(TAG, "Finish post delayed processing");
+					}
+				}, 5000);
 
 				// Only for debug
 				Toast.makeText(context, "Responce processed",
@@ -65,7 +83,7 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 		}
 
 	}
-	
+
 	private void cancelNotification(Context context) {
 		Context mmsContext;
 		try {
@@ -78,7 +96,7 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void deleteMessage(Context context, SmsMessage msg) {
 		Uri deleteUri = Uri.parse("content://sms");
 

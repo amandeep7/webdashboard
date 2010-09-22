@@ -12,9 +12,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.widget.Toast;
 
 public class BalanceModel {
+	private static final String TAG = BalanceModel.class.getSimpleName();
 	
 	private final static String PR_RESPONSE = "response";
 	private final static String PR_WIDGET_ID = "widget-id";
@@ -129,7 +131,8 @@ public class BalanceModel {
 	
 	//Send broadcast to notify widgets about changes
 	private void notifyWidgets(){
-		 Intent updateIntent = new Intent(context, RefreshService.class);
+		Log.d(TAG, "Sending broadcast to notify widgets about changes"); 
+		Intent updateIntent = new Intent(context, RefreshService.class);
          context.startService(updateIntent);
 	}
 	
