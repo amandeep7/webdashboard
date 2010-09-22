@@ -54,9 +54,7 @@ public class PiBalance extends Activity {
             @Override 
             public void onClick(View view) { 
                 dbgTxt.setText(bm.getLastResponse());
-                bm.dbgSetBeginingBalance(30);
-                Intent updateIntent = new Intent(getCtx(), RefreshService.class);
-                getCtx().startService(updateIntent);
+                bm.storeResponse("1");
             }}); 
         
         ussdBtn.setOnClickListener(new OnClickListener(){ 
