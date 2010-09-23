@@ -3,7 +3,7 @@
 	android:layout_height = "78dp"
 	android:layout_width = "74dp"
 	android:id = "@+id/widget"	
-	android:background = "@drawable/widget_sms"
+	android:background = "@drawable/widget_test"
 
 	> 
     
