@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.TextView;
-import android.widget.Toast;
+import name.pilgr.android.pibalance.Controller;
 import name.pilgr.android.pibalance.R;
 import name.pilgr.android.pibalance.model.BalanceModel;
 import name.pilgr.android.pibalance.utils.WakefulIntentService;
@@ -49,6 +49,7 @@ public class RefreshService extends WakefulIntentService {
 		int awID = bm.getAppWidgetId();
 		if (awID >= 0) {
 			awm.updateAppWidget(awID, views);
+			Controller.getInstance().setMidnightRefresh(ctx);
 		}
 		Log.d(TAG, "Widget refreshed by service");
 	}

@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import android.widget.Toast;
 
 public class SMSResponseReceiver extends BroadcastReceiver {
 	private static final String TAG = SMSResponseReceiver.class.getSimpleName();
@@ -27,7 +26,6 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 		boolean isExpectedMsg = false;
 		SmsMessage[] messages = null;
 		ctx = context;
-		;
 
 		if (intent != null && intent.getAction() != null
 				&& ACTION.compareToIgnoreCase(intent.getAction()) == 0) {
@@ -77,8 +75,7 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 				}, 5000);
 
 				// Only for debug
-				Toast.makeText(context, "Responce processed",
-						Toast.LENGTH_SHORT).show();
+				Log.d(TAG, "Responce processed");
 			}
 		}
 
