@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
-import android.telephony.SmsMessage;
+import android.telephony.gsm.SmsMessage;
 import android.util.Log;
 
 public class SMSResponseReceiver extends BroadcastReceiver {
