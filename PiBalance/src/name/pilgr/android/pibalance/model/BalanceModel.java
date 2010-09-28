@@ -11,7 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.telephony.SmsManager;
+import android.telephony.gsm.SmsManager;
 import android.util.Log;
 
 public class BalanceModel {
