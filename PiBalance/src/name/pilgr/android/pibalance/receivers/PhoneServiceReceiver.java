@@ -1,5 +1,6 @@
-package name.pilgr.android.pibalance;
+package name.pilgr.android.pibalance.receivers;
 
+import name.pilgr.android.pibalance.PiPhoneStateListener;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

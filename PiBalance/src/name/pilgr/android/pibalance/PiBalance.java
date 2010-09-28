@@ -8,16 +8,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class PiBalance extends Activity {
 	
-	TextView dbgTxt;
-	BalanceModel bm;
+	private TextView dbgTxt;
+	private BalanceModel bm;
+	private static final String TAG = PiBalance.class.getSimpleName(); 
 	
 	/** Called when the activity is first created. */
     @Override
@@ -40,11 +41,9 @@ public class PiBalance extends Activity {
                 
                 try { 
                     bm.sendSMSRequest();
-                    Toast.makeText(PiBalance.this, "SMS Sent",  
-                        Toast.LENGTH_LONG).show(); 
+                    Log.d(TAG, "SMS Sent");  
                 } catch (Exception e) { 
-                    Toast.makeText(PiBalance.this, "Failed to send SMS",  
-                        Toast.LENGTH_LONG).show(); 
+                    Log.e(TAG, "Failed to send SMS"); 
                     e.printStackTrace(); 
                 } 
             }}); 

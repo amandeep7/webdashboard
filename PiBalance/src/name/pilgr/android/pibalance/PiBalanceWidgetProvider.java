@@ -32,7 +32,7 @@ public class PiBalanceWidgetProvider extends AppWidgetProvider {
 	}
 	
 	public void onEnabled(Context context){
-		setMidnightAlarm(context);//For clearing the today box at midnight
+		Controller.getInstance().setMidnightRefresh(context);//To clear the today box at midnight
 	}
 	
 	public void onDisabled(Context context){
@@ -45,7 +45,7 @@ public class PiBalanceWidgetProvider extends AppWidgetProvider {
 			bm.sendSMSRequest();
 		}
 		bm.saveAppWidgetId(appWidgetId);
-		setMidnightAlarm(context);
+		Controller.getInstance().setMidnightRefresh(context);
 		refreshWidgets(context);		
 	}
 	
@@ -59,7 +59,7 @@ public class PiBalanceWidgetProvider extends AppWidgetProvider {
          context.startService(updateIntent);
 	}
 	
-	public void setMidnightAlarm(Context context){
+	/*public void setMidnightRefresh(Context context){
 		AlarmManager mgr =(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(context, RefreshService.class);
 		PendingIntent pi=PendingIntent.getService(context, 0, i, 0);
@@ -84,5 +84,5 @@ public class PiBalanceWidgetProvider extends AppWidgetProvider {
                 1000*60*60*24, //Repeating every day
                 pi);
 		Log.d(TAG,"Registered midnight alarm");
-	}
+	}*/
 }

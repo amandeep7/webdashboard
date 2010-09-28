@@ -5,16 +5,33 @@
     android:layout_height="fill_parent"
     android:id = "@+id/main"
     >
+    <TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:text="@string/version"    />
+    
+    <TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/note"    />
+    
     <Button android:id="@+id/sendSmsBtn" android:layout_width="fill_parent" 
         android:layout_height="wrap_content" android:text="Send balance request" /> 
     <Button android:id="@+id/dbgBtn" android:layout_width="fill_parent" 
         android:layout_height="wrap_content" android:text="Some debug" />  
     <Button android:id="@+id/sendUSSDBtn" android:layout_width="fill_parent" 
         android:layout_height="wrap_content" android:text="Send USSD request" />  
-<TextView  
+
+	<TextView  
     android:id="@+id/dbgTxt"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="@string/hello"
+    android:text=""
     />
+    
+    <TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent" 
+    android:gravity = "bottom"
+    android:text="@string/about"    />
 </LinearLayout>

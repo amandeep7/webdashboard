@@ -13,7 +13,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.widget.Toast;
 
 public class BalanceModel {
 	private static final String TAG = BalanceModel.class.getSimpleName();
@@ -31,27 +30,25 @@ public class BalanceModel {
 	//Beginning balance for today
 	private final static String PR_BEGINNING_BALANCE_TODAY = "beginning-balance-today";
 	
-	public Context context;
+	private Context context;
+	private SharedPreferences s;
 		
 	public BalanceModel(Context ctx){
 		context = ctx;
+		s = context.getSharedPreferences(C.PREFS_NAME, 0);
 	}
 	
 	public float getCurrentBalance(){
-		SharedPreferences settings = context.getSharedPreferences(C.PREFS_NAME, 0);
-        float currBal = settings.getFloat(PR_CURR_BALANCE, 0);
+        float currBal = s.getFloat(PR_CURR_BALANCE, 0);
         return currBal;
 	}
 	
 	public String getLastResponse(){
-		SharedPreferences settings = context.getSharedPreferences(C.PREFS_NAME, 0);
-        String respMsg = settings.getString(PR_RESPONSE, "nothing");
+        String respMsg = s.getString(PR_RESPONSE, "nothing");
         return respMsg; 
 	}
 	
 	public float getTodayChange(){		
-		SharedPreferences s = context.getSharedPreferences(C.PREFS_NAME, 0);
-                
 		long prevDay = s.getLong(PR_PREV_DAY, 0);
 		long currDay = s.getLong(PR_CURR_DAY, 0);
 		float prevBalance = s.getFloat(PR_PREV_BALANCE, 0);
@@ -99,15 +96,13 @@ public class BalanceModel {
 	}
 	
 	public void sendSMSRequest(){
-		
 		SmsManager smsMgr = SmsManager.getDefault(); 
         smsMgr.sendTextMessage(C.REQUEST_ADDRESS, null, C.REQUEST_MESSAGE, null, null);
-        Toast.makeText(context, "Balance request sent", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "Balance request sent");
 	}
 	
 	public void storeResponse(String msgBody) {
-		SharedPreferences settings = context.getSharedPreferences(C.PREFS_NAME, 0);
-		SharedPreferences.Editor editor = settings.edit();
+		SharedPreferences.Editor editor = s.edit();
 		
 		//Parse the last balance value
 		float currBalance = Float.parseFloat(parseMessageLifeUA(msgBody));
@@ -118,8 +113,8 @@ public class BalanceModel {
 		editor.putString(PR_RESPONSE, msgBody);
 		
 		//Current to previous
-		editor.putFloat(PR_PREV_BALANCE, settings.getFloat(PR_CURR_BALANCE, currBalance));
-		editor.putLong(PR_PREV_DAY, settings.getLong(PR_CURR_DAY, 0));
+		editor.putFloat(PR_PREV_BALANCE, s.getFloat(PR_CURR_BALANCE, currBalance));
+		editor.putLong(PR_PREV_DAY, s.getLong(PR_CURR_DAY, 0));
 				
 		editor.putFloat(PR_CURR_BALANCE, currBalance);		
 		editor.putLong(PR_CURR_DAY, currDay);
@@ -137,20 +132,17 @@ public class BalanceModel {
 	}
 	
 	public void saveAppWidgetId(int id){
-		SharedPreferences settings = context.getSharedPreferences(C.PREFS_NAME, 0);
-		SharedPreferences.Editor editor = settings.edit();
+		SharedPreferences.Editor editor = s.edit();
 		editor.putInt(PR_WIDGET_ID, id);
 		editor.commit();
 	}
 	
 	public int getAppWidgetId(){
-		SharedPreferences settings = context.getSharedPreferences(C.PREFS_NAME, 0);
-        int awID = settings.getInt(PR_WIDGET_ID, -100500);
+        int awID = s.getInt(PR_WIDGET_ID, -100500);
         return awID;
 	}
 	
 	public boolean isInit(){
-		SharedPreferences s = context.getSharedPreferences(C.PREFS_NAME, 0);
 		if (s.getInt(PR_WIDGET_ID, -100500) == -100500){
 			return true;
 		}

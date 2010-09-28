@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Balancepil!</string>
-    <string name="app_name">PiBalance</string>
+    <string name="app_name">Pi Баланс</string>
+    <string name="version">Версия: 0.062b</string>
+    <string name="note">Вся соль приложения — виджет. Добавте его на рабочий стол. Кнопочки ниже лучше не трогать. Но пальчики так и тянуться, да? ;-)</string>
+    <string name="about">Титры:\nРазработка — Алексей Масный (pilgr.name)\nГрафика — Ballista (austerlits@gmail.com)\nВсем спасибо. Все свободны</string>
 </resources>
