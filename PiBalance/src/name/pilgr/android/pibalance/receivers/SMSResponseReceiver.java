@@ -29,6 +29,7 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 
 		if (intent != null && intent.getAction() != null
 				&& ACTION.compareToIgnoreCase(intent.getAction()) == 0) {
+			bm = new BalanceModel(context);
 
 			try {
 				// Do we really need this message?
@@ -39,7 +40,8 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 							.createFromPdu((byte[]) pduArray[0]);
 					msgAddress = messages[0].getOriginatingAddress();
 					msgBody = messages[0].getMessageBody().toString();
-					if (msgAddress.equalsIgnoreCase(C.ADDRESS_RESPONSE)) {
+					
+					if (bm.isExpectedresponseAdress(msgAddress)){
 						isExpectedMsg = true;
 					}
 				}
@@ -51,7 +53,6 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 			if (isExpectedMsg) {
 
 				Log.d(TAG, "Initial store response");
-				bm = new BalanceModel(context);
 				bm.storeResponse(msgBody);
 				Log.d(TAG, "Response stored");
 				// Waiting for processing message by default SMS/MMS Manager
@@ -97,7 +98,7 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 	private void deleteMessage(Context context, SmsMessage msg) {
 		Uri deleteUri = Uri.parse("content://sms");
 
-		String WHERE_CONDITION = "read = 0 and address = " + C.ADDRESS_RESPONSE;
+		String WHERE_CONDITION = "read = 0 and address = " + msg.getOriginatingAddress();
 		String SORT_ORDER = "date DESC";
 		Cursor c = context.getContentResolver().query(deleteUri,
 				new String[] { "_id", "thread_id", "address", "read" },

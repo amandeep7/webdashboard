@@ -1,0 +1,11 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" 
+	android:layout_height = "78dp"
+	android:layout_width = "74dp"	
+	android:background = "@drawable/bg_megafon"
+	> 
+	
+	<include
+        layout="@layout/w_base" />
+  
+</LinearLayout>

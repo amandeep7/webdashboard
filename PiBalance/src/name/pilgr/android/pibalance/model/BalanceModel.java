@@ -29,6 +29,8 @@ public class BalanceModel {
 	private final static String PR_PREV_DAY = "prev-day";
 	//Beginning balance for today
 	private final static String PR_BEGINNING_BALANCE_TODAY = "beginning-balance-today";
+	//PLMN code of mobile operator
+	private final static String PR_OPERATOR_ID = "operator-id";
 	
 	private Context context;
 	private SharedPreferences s;
@@ -72,12 +74,13 @@ public class BalanceModel {
 		return currBalance - beginBalToday;
 	}
 	
-	private String parseMessageLifeUA(String msg){
+	private String parseMessage(String msg){
 		String bal;
 		StringTokenizer st = new StringTokenizer(msg, C.WASTE_SYMBOLS);
 		
 		while (st.hasMoreTokens()){
 			bal = st.nextToken();
+			bal = bal.replace(',', '.');
 			if (isAmount(bal)){
 				return bal;
 			}			
@@ -96,8 +99,23 @@ public class BalanceModel {
 	}
 	
 	public void sendSMSRequest(){
-		SmsManager smsMgr = SmsManager.getDefault(); 
-        smsMgr.sendTextMessage(C.REQUEST_ADDRESS, null, C.REQUEST_MESSAGE, null, null);
+		String address="", message="";
+		
+		if (getOperatorId() == C.UA_LIFE_MCC_MNC){
+			address = C.REQ_ADDR_UA_LIFE;
+			message = C.REQ_MSG_UA_LIFE;
+		}else if (getOperatorId() == C.RU_MTS_MCC_MNC){
+			address = C.REQ_ADDR_RU_MTS;
+			message = C.REQ_MSG_RU_MTS;
+		}else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC){
+			address = C.REQ_ADDR_RU_MEGA;
+			message = C.REQ_MSG_RU_MEGA;
+		}else {
+			return;
+		}
+		
+		SmsManager smsMgr = SmsManager.getDefault();
+		smsMgr.sendTextMessage(address, null, message, null, null);
         Log.d(TAG, "Balance request sent");
 	}
 	
@@ -105,7 +123,7 @@ public class BalanceModel {
 		SharedPreferences.Editor editor = s.edit();
 		
 		//Parse the last balance value
-		float currBalance = Float.parseFloat(parseMessageLifeUA(msgBody));
+		float currBalance = Float.parseFloat(parseMessage(msgBody));
 		//Calculate the number of day of current time
 		long currDay = (new Date()).getTime()/(1000*60*60*24);
 		
@@ -146,6 +164,31 @@ public class BalanceModel {
 		if (s.getInt(PR_WIDGET_ID, -100500) == -100500){
 			return true;
 		}
+		return false;
+	}
+
+	public void saveOperatorId(int providerId) {
+		SharedPreferences.Editor editor = s.edit();
+		editor.putInt(PR_OPERATOR_ID, providerId);
+		editor.commit();		
+	}
+
+	public int getOperatorId() {
+        return s.getInt(PR_OPERATOR_ID, 0);
+	}
+
+	public boolean isExpectedresponseAdress(String incNumber) {
+		int opId = getOperatorId();
+		if (opId == C.UA_LIFE_MCC_MNC && incNumber.equalsIgnoreCase(C.RESP_ADDR_UA_LIFE)){
+			return true;
+		}
+		if (opId == C.RU_MTS_MCC_MNC && incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MTS)){
+			return true;
+		}
+		if (opId == C.RU_MEGAFON_MCC_MNC && incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MEGA)){
+			return true ;
+		}
+			
 		return false;
 	}
 }

@@ -9,17 +9,31 @@ public class C {
 	/*At this time other application (SMS/MMS manager) process and store SMS*/
 	public static final int SAVE_SMS_TIMEOUT = 5000;
 	
-	public static final String REQUEST_ADDRESS = "5016";
-	public static final String REQUEST_MESSAGE = "CHECKBALANCE";
+	/*Operator specific constants*/
+	/*UA LIFE*/
+	public static final String REQ_ADDR_UA_LIFE = "5016";
+	public static final String REQ_MSG_UA_LIFE = "CHECKBALANCE";
+	public static final String RESP_ADDR_UA_LIFE = "5433";
+	/*RU MTS*/
+	public static final String REQ_ADDR_RU_MTS = "111";
+	public static final String REQ_MSG_RU_MTS = "11";
+	public static final String RESP_ADDR_RU_MTS = "111";
+	/*RU MEGAFON*/
+	public static final String REQ_ADDR_RU_MEGA = "000100";
+	public static final String REQ_MSG_RU_MEGA = "bal";
+	public static final String RESP_ADDR_RU_MEGA = "000100";
 	
-	//Listen incoming message from their address
-	public static final String ADDRESS_RESPONSE = "5433";
 	
 	//String for display on widget if we have any problem
 	public final static String PARSE_ERROR = "ERR";
 	
-	public final static String WASTE_SYMBOLS = " UAH";
+	public final static String WASTE_SYMBOLS = "ÑñSs U:Ðð";
 	
 	public static final String REFRESH_INTENT = "name.pilgr.android.pibalance.intent.action.REFRESH_WIDGET";
+	
+	public static final int DEBUG_ANDROID_MCC_MNC = 310260;
+	public static final int UA_LIFE_MCC_MNC = 25506;
+	public static final int RU_MTS_MCC_MNC = 25001;
+	public static final int RU_MEGAFON_MCC_MNC = 25002;
 
 }
