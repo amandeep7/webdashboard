@@ -1,5 +1,5 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="74dp"
     android:minHeight="78dp"
-    android:initialLayout="@layout/pibalance_appwidget" >
+    android:initialLayout="@layout/w_blank" >
 </appwidget-provider>

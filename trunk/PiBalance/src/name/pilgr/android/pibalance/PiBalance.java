@@ -2,12 +2,12 @@ package name.pilgr.android.pibalance;
 
 import name.pilgr.android.pibalance.R;
 import name.pilgr.android.pibalance.model.BalanceModel;
-import name.pilgr.android.pibalance.services.RefreshService;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 public class PiBalance extends Activity {
 	
-	private TextView dbgTxt;
+	private TextView dbgTxt, opId, opName;
 	private BalanceModel bm;
 	private static final String TAG = PiBalance.class.getSimpleName(); 
 	
@@ -33,7 +33,13 @@ public class PiBalance extends Activity {
         Button dbgBtn = (Button)findViewById(R.id.dbgBtn);
         Button ussdBtn = (Button)findViewById(R.id.sendUSSDBtn);
         dbgTxt = (TextView)findViewById(R.id.dbgTxt);
-                
+        opId = (TextView)findViewById(R.id.netwOperatorId);
+        opName = (TextView)findViewById(R.id.netwOperatorName);
+        
+        TelephonyManager tm = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+        opId.setText(tm.getNetworkOperator());
+        opName.setText(tm.getNetworkOperatorName());
+        
         sendBtn.setOnClickListener(new OnClickListener(){ 
  
             @Override 
@@ -52,8 +58,18 @@ public class PiBalance extends Activity {
         	 
             @Override 
             public void onClick(View view) { 
-                dbgTxt.setText(bm.getLastResponse());
-                bm.storeResponse("1");
+                dbgTxt.setText("Prev message: " + bm.getLastResponse());                
+                /*if (bm.getOperatorId() == C.DEBUG_ANDROID_MCC_MNC){
+                	bm.saveOperatorId(C.UA_LIFE_MCC_MNC);
+                }
+                else if (bm.getOperatorId() == C.UA_LIFE_MCC_MNC){
+                	bm.saveOperatorId(C.RU_MTS_MCC_MNC);
+                } else if (bm.getOperatorId() == C.RU_MTS_MCC_MNC){
+                	bm.saveOperatorId(C.RU_MEGAFON_MCC_MNC);
+                } else if (bm.getOperatorId() == C.RU_MEGAFON_MCC_MNC){
+                	bm.saveOperatorId(C.UA_LIFE_MCC_MNC);
+                }*/
+                bm.storeResponse("Ваш баланс 10 тугриков");                
             }}); 
         
         ussdBtn.setOnClickListener(new OnClickListener(){ 
