@@ -21,13 +21,14 @@ public class C {
 	/*RU MEGAFON*/
 	public static final String REQ_ADDR_RU_MEGA = "000100";
 	public static final String REQ_MSG_RU_MEGA = "bal";
-	public static final String RESP_ADDR_RU_MEGA = "000100";
+	public static final String RESP_ADDR_RU_MEGA_1 = "000100";
+	public static final String RESP_ADDR_RU_MEGA_2 = "Balance";
 	
 	
 	//String for display on widget if we have any problem
 	public final static String PARSE_ERROR = "ERR";
 	
-	public final static String WASTE_SYMBOLS = "ÑñSs U:Ðð";
+	public final static String WASTE_SYMBOLS = "ÑñSs U:Ðð?";
 	
 	public static final String REFRESH_INTENT = "name.pilgr.android.pibalance.intent.action.REFRESH_WIDGET";
 	

@@ -185,7 +185,8 @@ public class BalanceModel {
 		if (opId == C.RU_MTS_MCC_MNC && incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MTS)){
 			return true;
 		}
-		if (opId == C.RU_MEGAFON_MCC_MNC && incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MEGA)){
+		if (opId == C.RU_MEGAFON_MCC_MNC && 
+				incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MEGA_2)){
 			return true ;
 		}
 			
