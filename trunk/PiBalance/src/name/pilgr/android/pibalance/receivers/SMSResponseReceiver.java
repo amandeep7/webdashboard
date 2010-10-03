@@ -1,6 +1,7 @@
 package name.pilgr.android.pibalance.receivers;
 
 import name.pilgr.android.pibalance.C;
+import name.pilgr.android.pibalance.R;
 import name.pilgr.android.pibalance.model.BalanceModel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.telephony.gsm.SmsMessage;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SMSResponseReceiver extends BroadcastReceiver {
 	private static final String TAG = SMSResponseReceiver.class.getSimpleName();
@@ -41,7 +43,7 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 					msgAddress = messages[0].getOriginatingAddress();
 					msgBody = messages[0].getMessageBody().toString();
 					
-					if (bm.isExpectedresponseAdress(msgAddress)){
+					if (bm.isExpectedResponse(msgAddress)){
 						isExpectedMsg = true;
 					}
 				}
@@ -53,7 +55,12 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 			if (isExpectedMsg) {
 
 				Log.d(TAG, "Initial store response");
-				bm.storeResponse(msgBody);
+				try{
+					bm.storeResponse(msgBody);
+				}catch (NumberFormatException e){
+					Toast.makeText(context, R.string.parse_fail_msg , Toast.LENGTH_LONG);
+				}
+				
 				Log.d(TAG, "Response stored");
 				// Waiting for processing message by default SMS/MMS Manager
 				// try {

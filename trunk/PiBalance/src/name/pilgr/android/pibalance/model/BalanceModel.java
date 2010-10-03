@@ -31,6 +31,8 @@ public class BalanceModel {
 	private final static String PR_BEGINNING_BALANCE_TODAY = "beginning-balance-today";
 	//PLMN code of mobile operator
 	private final static String PR_OPERATOR_ID = "operator-id";
+	//PLMN code of mobile operator
+	private final static String PR_WAITING_RESPONSE = "is-request-sent";
 	
 	private Context context;
 	private SharedPreferences s;
@@ -116,6 +118,12 @@ public class BalanceModel {
 		
 		SmsManager smsMgr = SmsManager.getDefault();
 		smsMgr.sendTextMessage(address, null, message, null, null);
+		
+		Editor editor = s.edit();
+		editor.putBoolean(PR_WAITING_RESPONSE, true);
+		editor.commit();
+
+		
         Log.d(TAG, "Balance request sent");
 	}
 	
@@ -136,6 +144,8 @@ public class BalanceModel {
 				
 		editor.putFloat(PR_CURR_BALANCE, currBalance);		
 		editor.putLong(PR_CURR_DAY, currDay);
+		
+		editor.putBoolean(PR_WAITING_RESPONSE, false);
 		
 		editor.commit();
 		
@@ -177,19 +187,23 @@ public class BalanceModel {
         return s.getInt(PR_OPERATOR_ID, 0);
 	}
 
-	public boolean isExpectedresponseAdress(String incNumber) {
+	public boolean isExpectedResponse(String incNumber) {
+		boolean isExpected = false;
 		int opId = getOperatorId();
 		if (opId == C.UA_LIFE_MCC_MNC && incNumber.equalsIgnoreCase(C.RESP_ADDR_UA_LIFE)){
-			return true;
+			isExpected = true;
 		}
 		if (opId == C.RU_MTS_MCC_MNC && incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MTS)){
-			return true;
+			isExpected = true;
 		}
 		if (opId == C.RU_MEGAFON_MCC_MNC && 
 				incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MEGA_2)){
-			return true ;
+			isExpected = true;
 		}
+		
+		//Do we really waiting the response? Or request was sent manually?
+		isExpected = isExpected && s.getBoolean(PR_WAITING_RESPONSE, false);
 			
-		return false;
+		return isExpected;
 	}
 }
