@@ -25,7 +25,16 @@
     android:layout_height="wrap_content" 
     android:text="@string/note"    />
     
-    <include layout = "@layout/brake_line"/>
+    <TextView   
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"		    
+		    android:gravity = "center"
+		    android:padding = "1dp"
+		    android:background = "@drawable/brakebox"	
+		    android:textStyle = "bold"	    
+		    android:text="Настройки"  		    
+		    />
+		    
     <Button android:id="@+id/sendSmsBtn" android:layout_width="fill_parent" 
         android:layout_height="wrap_content" android:text="Send balance request" /> 
     <Button android:id="@+id/dbgBtn" android:layout_width="fill_parent" 
