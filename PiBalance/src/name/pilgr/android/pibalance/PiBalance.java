@@ -13,10 +13,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PiBalance extends Activity {
 	
-	private TextView dbgTxt, opId, opName;
+	private TextView lastResp, opId, opName, reqAddress, reqMessage, respAddress;
+	private TextView lblBalance;
 	private BalanceModel bm;
 	private static final String TAG = PiBalance.class.getSimpleName(); 
 	
@@ -31,14 +33,28 @@ public class PiBalance extends Activity {
         
         Button sendBtn = (Button)findViewById(R.id.sendSmsBtn); 
         Button dbgBtn = (Button)findViewById(R.id.dbgBtn);
-        Button ussdBtn = (Button)findViewById(R.id.sendUSSDBtn);
-        dbgTxt = (TextView)findViewById(R.id.dbgTxt);
+        
+
         opId = (TextView)findViewById(R.id.netwOperatorId);
         opName = (TextView)findViewById(R.id.netwOperatorName);
+        lastResp = (TextView)findViewById(R.id.last_response);
+        
+        lblBalance =  (TextView)findViewById(R.id.lbl_box_balance);
+        String balBox = getString(R.string.lbl_box_balance) + ": " + bm.getCurrentBalance();
+        balBox += " " + getString(R.string.lbl_box_change_today) + ": " + Math.round(bm.getTodayChange());
+        lblBalance.setText(balBox);
+        
+        reqAddress = (TextView)findViewById(R.id.ed_request_address);
+        reqMessage = (TextView)findViewById(R.id.ed_request_message);
+        respAddress = (TextView)findViewById(R.id.ed_response_address);
+        reqAddress.setText(bm.getRequestAddress());
+        reqMessage.setText(bm.getRequestMessage());
+        respAddress.setText(bm.getResponseAddress());
         
         TelephonyManager tm = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
-        opId.setText(tm.getNetworkOperator());
-        opName.setText(tm.getNetworkOperatorName());
+        opId.setText(getString(R.string.lbl_operator_id) + " " + tm.getNetworkOperator());
+        opName.setText(getString(R.string.lbl_operator_name) + " " +tm.getNetworkOperatorName());
+        lastResp.setText(bm.getLastResponse());
         
         sendBtn.setOnClickListener(new OnClickListener(){ 
  
@@ -47,6 +63,7 @@ public class PiBalance extends Activity {
                 
                 try { 
                     bm.sendSMSRequest();
+                    Toast.makeText(getCtx(), R.string.not_request_sent, Toast.LENGTH_LONG).show();
                     Log.d(TAG, "SMS Sent");  
                 } catch (Exception e) { 
                     Log.e(TAG, "Failed to send SMS"); 
@@ -58,8 +75,7 @@ public class PiBalance extends Activity {
         	 
             @Override 
             public void onClick(View view) { 
-                dbgTxt.setText("Prev message: " + bm.getLastResponse());                
-                if (bm.getOperatorId() == C.DEBUG_ANDROID_MCC_MNC){
+               /* if (bm.getOperatorId() == C.DEBUG_ANDROID_MCC_MNC){
                 	bm.saveOperatorId(C.UA_LIFE_MCC_MNC);
                 }
                 else if (bm.getOperatorId() == C.UA_LIFE_MCC_MNC){
@@ -68,19 +84,10 @@ public class PiBalance extends Activity {
                 	bm.saveOperatorId(C.RU_MEGAFON_MCC_MNC);
                 } else if (bm.getOperatorId() == C.RU_MEGAFON_MCC_MNC){
                 	bm.saveOperatorId(C.UA_LIFE_MCC_MNC);
-                }
+                }*/
                 bm.storeResponse("Ваш баланс 10 тугриков");                
             }}); 
         
-        ussdBtn.setOnClickListener(new OnClickListener(){ 
-       	 
-            @Override 
-            public void onClick(View view) { 
-            	 call("*111" + Uri.encode("#"));                   
-            }
-            });
-    
-     
     }
     
     private void call(String ussdCode){

@@ -206,4 +206,42 @@ public class BalanceModel {
 			
 		return isExpected;
 	}
+	
+	public String getRequestAddress(){
+		String address = "";
+		if (getOperatorId() == C.UA_LIFE_MCC_MNC){
+			address = C.REQ_ADDR_UA_LIFE;
+		}else if (getOperatorId() == C.RU_MTS_MCC_MNC){
+			address = C.REQ_ADDR_RU_MTS;
+		}else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC){
+			address = C.REQ_ADDR_RU_MEGA;
+		}
+		return address;
+	}
+	
+	public String getRequestMessage(){
+		String message = "";
+		if (getOperatorId() == C.UA_LIFE_MCC_MNC){
+			message = C.REQ_MSG_UA_LIFE;
+		}else if (getOperatorId() == C.RU_MTS_MCC_MNC){
+			message = C.REQ_MSG_RU_MTS;
+		}else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC){
+			message = C.REQ_MSG_RU_MEGA;
+		}
+		return message;
+	}
+	
+	public String getResponseAddress(){
+		String respAddress = "";
+		if (getOperatorId() == C.UA_LIFE_MCC_MNC){
+			respAddress = C.REQ_ADDR_UA_LIFE;
+		}else if (getOperatorId() == C.RU_MTS_MCC_MNC){
+			respAddress = C.REQ_ADDR_RU_MTS;
+		}else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC){
+			respAddress = C.REQ_ADDR_RU_MEGA;
+		}
+		return respAddress;
+	}
+	
+	
 }
