@@ -2,7 +2,20 @@
 <resources>
     <string name="app_name">Pi Баланс</string>
     <string name="version">Версия: 0.062b</string>
-    <string name="note">Вся соль приложения — виджет. Добавте его на домашний экран</string>
-    <string name="about">Титры:\nРазработка — Алексей Масный (pilgr.name)\nГрафика — Ballista (austerlits@gmail.com)</string>
+    <string name="note">Вся соль приложения — виджет. Обязательно добавте его на домашний экран</string>
+    <string name="about">Разработка — Алексей Масный (pilgr.name)\nГрафика — Ballista (austerlits@gmail.com)</string>
     <string name="parse_fail_msg">Ошибка анализа смс-сообщения</string>
+    <string name="init_last_response">Вы добавили виджет на рабочий стол? Дождитесь обновления баланса</string>
+    <string name="lbl_box_settings">Тюнинг</string>
+    <string name="lbl_box_about">Титры</string>
+    <string name="lbl_box_balance">Баланс</string>
+    <string name="lbl_box_change_today">Сегодня</string>
+    <string name="lbl_operator_id">ID оператора:</string>
+    <string name="lbl_operator_name">Название оператора:</string>
+    <string name="lbl_request_address">Куда отправлять запрос:</string>
+    <string name="lbl_request_message">Текст запроса:</string>
+    <string name="lbl_response_address">С какого номера ожидать ответа:</string>
+    
+    <string name="bt_request">Обновить</string>
+    <string name="not_request_sent">Запрос отправлен. Ожидаем ответа</string>
 </resources>

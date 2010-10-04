@@ -14,63 +14,169 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     >	
-	    
-    <TextView  
-    android:layout_width="fill_parent" 
+
+<!--************    BALANCE   ***************    -->    
+    <TextView 
+    		android:id = "@+id/lbl_box_balance"  
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"		    
+		    android:gravity = "center"
+		    android:layout_margin = "5dp"
+		    android:background = "@drawable/brakebox"	
+		    android:textColor = "#FFFFFF"    
+		    android:text="@string/lbl_box_balance"  		    
+		    />
+	
+	<LinearLayout android:orientation = "horizontal"
+				android:layout_width="fill_parent"
+    			android:layout_height="fill_parent" 
+				>
+	<TextView  
+    android:id="@+id/last_response"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:layout_weight = "1"
+    android:layout_margin = "5dp"
+    android:layout_gravity = "top|left"
+    android:text="@string/init_last_response"
+    />	
+    <Button android:id="@+id/sendSmsBtn" 
+	android:layout_width = "fill_parent"
     android:layout_height="wrap_content"
-    android:text="@string/version"    />
-    
-    <TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/note"    />
-    
+ 	android:layout_margin = "5dp"
+    android:layout_weight = "1.9"  
+
+    android:text="@string/bt_request" /> 
+    </LinearLayout>    
+	    
+
+<!--************    SETTINGS   ***************    -->    
     <TextView   
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"		    
 		    android:gravity = "center"
-		    android:padding = "1dp"
+		    android:layout_margin = "5dp"
 		    android:background = "@drawable/brakebox"	
-		    android:textStyle = "bold"	    
-		    android:text="Настройки"  		    
+		    android:textColor = "#FFFFFF"    
+		    android:text="@string/lbl_box_settings"  		    
+		    />
+	 <RelativeLayout 
+	 		android:layout_width="fill_parent"
+    		android:layout_height="fill_parent">
+	 
+	 <TextView  
+		    android:id = "@+id/lbl_request_address"	    
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content" 
+		    android:layout_marginLeft = "5dp"
+		    android:text = "@string/lbl_request_address"		    
+		    />
+	 <TextView
+        android:id="@+id/ed_request_address"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin = "5dp"
+        android:enabled = "false"        
+		android:layout_below = "@id/lbl_request_address"
+		android:text = "ed_request_address"
+       />
+       	    
+	 <TextView  
+		    android:id = "@+id/lbl_request_message"
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content" 
+		    android:layout_marginLeft = "5dp"
+		    android:text = "@string/lbl_request_message"
+		    android:layout_below="@id/ed_request_address"
+		    />
+	<TextView
+        android:id="@+id/ed_request_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin = "5dp"
+        android:enabled = "false"        
+		android:layout_below = "@id/lbl_request_message"
+		android:text = "ed_request_message"
+       />	    
+	 <TextView  
+		    android:id = "@+id/lbl_response_address"
+		    android:layout_width="wrap_content" 
+		    android:layout_height="wrap_content" 
+		    android:layout_marginLeft = "5dp"
+		    android:text = "@string/lbl_response_address"
+		    android:layout_below="@id/ed_request_message"
+		    />	
+	<TextView
+        android:id="@+id/ed_response_address"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin = "5dp"     
+        android:enabled = "false"   
+		android:layout_below = "@id/lbl_response_address"
+		android:text = "ed_response_address"
+       />	        	    	    
+   </RelativeLayout>
+ 
+<!--************    DEBUG   ***************    -->    
+    <TextView   
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"		    
+		    android:gravity = "center"
+		    android:layout_margin = "5dp"
+		    android:background = "@drawable/brakebox_red"	
+		    android:textColor = "#FFFFFF"    
+		    android:text="Debug"  		    
 		    />
 		    
-    <Button android:id="@+id/sendSmsBtn" android:layout_width="fill_parent" 
-        android:layout_height="wrap_content" android:text="Send balance request" /> 
-    <Button android:id="@+id/dbgBtn" android:layout_width="fill_parent" 
-        android:layout_height="wrap_content" android:text="Some debug" />  
-    <Button android:id="@+id/sendUSSDBtn" android:layout_width="fill_parent" 
-        android:layout_height="wrap_content" android:text="Send USSD request" />  
+    <Button android:id="@+id/dbgBtn" android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" android:text="Emulate fake response" />  
+   <TextView  
+		    android:id = "@+id/netwOperatorId"
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content" 
+		    android:layout_marginLeft = "5dp"
+		    android:text = "operator id"
+		    />
+    
+    <TextView  
+		    android:id = "@+id/netwOperatorName"
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft = "5dp" 
+		    android:text = "operator name"
+    />
 
-	<TextView  
-    android:id="@+id/dbgTxt"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text=""
-    />
-    
-    <TextView  
-    android:id = "@+id/netwOperatorId"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    />
-    
-    <TextView  
-    android:id = "@+id/netwOperatorName"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    />
-    
+	
+
+<!--************    ABOUT   ***************    -->
+    <TextView   
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"		    
+		    android:gravity = "center"
+		    android:layout_margin = "5dp"
+		    android:background = "@drawable/brakebox"	
+		    android:textColor = "#FFFFFF"    
+		    android:text="@string/lbl_box_about"  		    
+		    />
     <TextView  
     android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
+    android:layout_height="wrap_content"
+    android:layout_margin = "5dp"
+    android:text="@string/version"    />
+
+    <TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:layout_margin = "5dp" 
     android:text="@string/about"    />
     
     <TextView  
     android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Очень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\nОчень боьшой текст\n"    />
-
+    android:layout_height="wrap_content"
+    android:layout_margin = "5dp" 
+    android:textStyle = "bold"
+    android:text="@string/note"    />
+    
 </LinearLayout>    
 </ScrollView>
 </LinearLayout>
