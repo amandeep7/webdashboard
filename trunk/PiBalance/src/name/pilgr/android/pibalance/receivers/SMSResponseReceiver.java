@@ -105,7 +105,7 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 	private void deleteMessage(Context context, SmsMessage msg) {
 		Uri deleteUri = Uri.parse("content://sms");
 
-		String WHERE_CONDITION = "read = 0 and address = " + msg.getOriginatingAddress();
+		String WHERE_CONDITION = "read = 0 and address = '" + msg.getOriginatingAddress() + "'";
 		String SORT_ORDER = "date DESC";
 		Cursor c = context.getContentResolver().query(deleteUri,
 				new String[] { "_id", "thread_id", "address", "read" },
