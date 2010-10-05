@@ -194,14 +194,21 @@ public class BalanceModel {
 	public boolean isExpectedResponse(String incNumber) {
 		boolean isExpected = false;
 		int opId = getOperatorId();
+		//Life
 		if (opId == C.UA_LIFE_MCC_MNC && incNumber.equalsIgnoreCase(C.RESP_ADDR_UA_LIFE)){
 			isExpected = true;
 		}
+		//MTS
 		if (opId == C.RU_MTS_MCC_MNC && incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MTS)){
 			isExpected = true;
 		}
+		//Megafon
 		if (opId == C.RU_MEGAFON_MCC_MNC && 
 				incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MEGA_2)){
+			isExpected = true;
+		}
+		if (opId == C.RU_MEGAFON_MCC_MNC && 
+				incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MEGA_1)){
 			isExpected = true;
 		}
 		
