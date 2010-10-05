@@ -58,7 +58,7 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 				try{
 					bm.storeResponse(msgBody);
 				}catch (NumberFormatException e){
-					Toast.makeText(context, R.string.parse_fail_msg , Toast.LENGTH_LONG);
+					Toast.makeText(context, R.string.parse_fail_msg , Toast.LENGTH_LONG).show();
 				}
 				
 				Log.d(TAG, "Response stored");
