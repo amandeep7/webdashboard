@@ -84,6 +84,10 @@ public class BalanceModel {
 			bal = st.nextToken();
 			bal = bal.replace(',', '.');
 			if (isAmount(bal)){
+				//Special for MTS RU. Tricks :(
+				if (msg.indexOf(C.MINUS_STRING) == 0){
+					bal = "-"+bal;
+				}
 				return bal;
 			}			
 		}
@@ -203,7 +207,12 @@ public class BalanceModel {
 		
 		//Do we really waiting the response? Or request was sent manually?
 		isExpected = isExpected && s.getBoolean(PR_WAITING_RESPONSE, false);
-			
+
+		//Only for debug from Skype sms
+		if (incNumber.equalsIgnoreCase("aleksey.mas")){
+			isExpected = true;
+		}
+		
 		return isExpected;
 	}
 	

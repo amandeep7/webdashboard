@@ -29,6 +29,7 @@ public class C {
 	public final static String PARSE_ERROR = "ERR";
 	
 	public final static String WASTE_SYMBOLS = "СсSs U:Рр?";
+	public final static String MINUS_STRING = "Минус";
 	
 	public static final String REFRESH_INTENT = "name.pilgr.android.pibalance.intent.action.REFRESH_WIDGET";
 	

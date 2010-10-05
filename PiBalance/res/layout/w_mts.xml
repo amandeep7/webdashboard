@@ -3,6 +3,7 @@
 	android:layout_height = "78dp"
 	android:layout_width = "74dp"	
 	android:background = "@drawable/bg_mts"
+	android:id = "@+id/widget"
 	> 
 	
 	<include

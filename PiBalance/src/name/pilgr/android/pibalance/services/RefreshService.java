@@ -1,5 +1,6 @@
 package name.pilgr.android.pibalance.services;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import name.pilgr.android.pibalance.C;
 import name.pilgr.android.pibalance.Controller;
+import name.pilgr.android.pibalance.PiBalance;
 import name.pilgr.android.pibalance.R;
 import name.pilgr.android.pibalance.model.BalanceModel;
 import name.pilgr.android.pibalance.utils.WakefulIntentService;
@@ -46,7 +48,12 @@ public class RefreshService extends WakefulIntentService {
 			views.setViewVisibility(R.id.today, TextView.INVISIBLE);
 		} else {
 			views.setViewVisibility(R.id.today, TextView.VISIBLE);
-		}		
+		}
+		
+		// Create an Intent to launch MainActivity
+        Intent intent = new Intent(ctx, PiBalance.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
+        views.setOnClickPendingIntent(R.id.widget, pendingIntent);
 
 		int awID = bm.getAppWidgetId();
 		if (awID >= 0) {
