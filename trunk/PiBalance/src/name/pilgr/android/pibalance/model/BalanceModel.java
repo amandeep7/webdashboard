@@ -1,6 +1,5 @@
 package name.pilgr.android.pibalance.model;
 
-
 import java.util.Date;
 import java.util.StringTokenizer;
 
@@ -11,171 +10,188 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.SystemClock;
 import android.telephony.gsm.SmsManager;
 import android.util.Log;
 
 public class BalanceModel {
 	private static final String TAG = BalanceModel.class.getSimpleName();
-	
+
 	private final static String PR_RESPONSE = "response";
 	private final static String PR_WIDGET_ID = "widget-id";
-	//The last balance from current response
+	// The last balance from current response
 	private final static String PR_CURR_BALANCE = "curr-balance";
-	//The data of current response
+	// The data of current response
 	private final static String PR_CURR_DAY = "curr-day";
-	//The last balance from previous response
+	// The last balance from previous response
 	private final static String PR_PREV_BALANCE = "prev-balance";
-	//The data of previous response
+	// The data of previous response
 	private final static String PR_PREV_DAY = "prev-day";
-	//Beginning balance for today
+	// Beginning balance for today
 	private final static String PR_BEGINNING_BALANCE_TODAY = "beginning-balance-today";
-	//PLMN code of mobile operator
+	// PLMN code of mobile operator
 	private final static String PR_OPERATOR_ID = "operator-id";
-	//PLMN code of mobile operator
+	// PLMN code of mobile operator
 	private final static String PR_WAITING_RESPONSE = "is-request-sent";
-	
+
+	private static final String PR_LAST_REQ_TIMESTAMP = "last-req-timestamp";
+
 	private Context context;
 	private SharedPreferences s;
-		
-	public BalanceModel(Context ctx){
+
+	public BalanceModel(Context ctx) {
 		context = ctx;
 		s = context.getSharedPreferences(C.PREFS_NAME, 0);
 	}
-	
-	public float getCurrentBalance(){
-        float currBal = s.getFloat(PR_CURR_BALANCE, 0);
-        return currBal;
+
+	public float getCurrentBalance() {
+		float currBal = s.getFloat(PR_CURR_BALANCE, 0);
+		return currBal;
 	}
-	
-	public String getLastResponse(){
-        String respMsg = s.getString(PR_RESPONSE, "nothing");
-        return respMsg; 
+
+	public String getLastResponse() {
+		String respMsg = s.getString(PR_RESPONSE, "nothing");
+		return respMsg;
 	}
-	
-	public float getTodayChange(){		
+
+	public float getTodayChange() {
 		long prevDay = s.getLong(PR_PREV_DAY, 0);
 		long currDay = s.getLong(PR_CURR_DAY, 0);
 		float prevBalance = s.getFloat(PR_PREV_BALANCE, 0);
 		float currBalance = s.getFloat(PR_CURR_BALANCE, 0);
 		float beginBalToday = s.getFloat(PR_BEGINNING_BALANCE_TODAY, 0);
-				 
-		//If data changed we must calculate change from the previous balance 
-		if (currDay != prevDay){
+
+		// If data changed we must calculate change from the previous balance
+		if (currDay != prevDay) {
 			beginBalToday = prevBalance;
 			Editor editor = s.edit();
 			editor.putFloat(PR_BEGINNING_BALANCE_TODAY, beginBalToday);
 			editor.commit();
 		}
-		
-		//If we have old data today we cann't calculate the balance change
-		long todayDay = (new Date()).getTime()/(1000*60*60*24);
-		if (currDay != todayDay){
+
+		// If we have old data today we cann't calculate the balance change
+		long todayDay = (new Date()).getTime() / (1000 * 60 * 60 * 24);
+		if (currDay != todayDay) {
 			return 0;
 		}
-			
+
 		return currBalance - beginBalToday;
 	}
-	
-	private String parseMessage(String msg){
+
+	private String parseMessage(String msg) {
 		String bal;
 		StringTokenizer st = new StringTokenizer(msg, C.WASTE_SYMBOLS);
-		
-		while (st.hasMoreTokens()){
+
+		while (st.hasMoreTokens()) {
 			bal = st.nextToken();
 			bal = bal.replace(',', '.');
-			if (isAmount(bal)){
-				//Special for MTS RU. Tricks :(
-				if (msg.indexOf(C.MINUS_STRING) == 0){
-					bal = "-"+bal;
+			if (isAmount(bal)) {
+				// Special for MTS RU. Tricks :(
+				if (msg.indexOf(C.MINUS_STRING) == 0) {
+					bal = "-" + bal;
 				}
 				return bal;
-			}			
+			}
 		}
 		return C.PARSE_ERROR;
-		
+
 	}
-	
-	private boolean isAmount(String str){
-		try{
+
+	private boolean isAmount(String str) {
+		try {
 			Double.parseDouble(str);
 			return true;
-		} catch(Exception e){
-			return false;						
+		} catch (Exception e) {
+			return false;
 		}
 	}
-	
-	public void sendSMSRequest(){
-		String address="", message="";
+
+	public void sendSMSRequest(boolean urgent) {
+		String address = "", message = "";
 		
-		if (getOperatorId() == C.UA_LIFE_MCC_MNC){
-			address = C.REQ_ADDR_UA_LIFE;
-			message = C.REQ_MSG_UA_LIFE;
-		}else if (getOperatorId() == C.RU_MTS_MCC_MNC){
-			address = C.REQ_ADDR_RU_MTS;
-			message = C.REQ_MSG_RU_MTS;
-		}else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC){
-			address = C.REQ_ADDR_RU_MEGA;
-			message = C.REQ_MSG_RU_MEGA;
-		}else {
+		if (isLaterBetter() && !urgent) {
 			return;
 		}
-		
+
+		if (getOperatorId() == C.UA_LIFE_MCC_MNC) {
+			address = C.REQ_ADDR_UA_LIFE;
+			message = C.REQ_MSG_UA_LIFE;
+		} else if (getOperatorId() == C.RU_MTS_MCC_MNC) {
+			address = C.REQ_ADDR_RU_MTS;
+			message = C.REQ_MSG_RU_MTS;
+		} else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC) {
+			address = C.REQ_ADDR_RU_MEGA;
+			message = C.REQ_MSG_RU_MEGA;
+		} else {
+			return;
+		}
+
 		SmsManager smsMgr = SmsManager.getDefault();
 		smsMgr.sendTextMessage(address, null, message, null, null);
-		
+
 		Editor editor = s.edit();
 		editor.putBoolean(PR_WAITING_RESPONSE, true);
+		editor.putLong(PR_LAST_REQ_TIMESTAMP, System.currentTimeMillis());
 		editor.commit();
 
-		
-        Log.d(TAG, "Balance request sent");
+		Log.d(TAG, "Balance request sent");
 	}
-	
+
+	private boolean isLaterBetter() {
+		long prev = s.getLong(PR_LAST_REQ_TIMESTAMP, 0);
+		long curr = System.currentTimeMillis();
+		if (curr - prev < C.REQUEST_DELAY) {
+			return true;
+		}
+		return false;
+	}
+
 	public void storeResponse(String msgBody) {
 		SharedPreferences.Editor editor = s.edit();
-		
-		//Parse the last balance value
+
+		// Parse the last balance value
 		float currBalance = Float.parseFloat(parseMessage(msgBody));
-		//Calculate the number of day of current time
-		long currDay = (new Date()).getTime()/(1000*60*60*24);
-		
-		//At first, store the full response message
+		// Calculate the number of day of current time
+		long currDay = (new Date()).getTime() / (1000 * 60 * 60 * 24);
+
+		// At first, store the full response message
 		editor.putString(PR_RESPONSE, msgBody);
-		
-		//Current to previous
-		editor.putFloat(PR_PREV_BALANCE, s.getFloat(PR_CURR_BALANCE, currBalance));
+
+		// Current to previous
+		editor.putFloat(PR_PREV_BALANCE, s.getFloat(PR_CURR_BALANCE,
+				currBalance));
 		editor.putLong(PR_PREV_DAY, s.getLong(PR_CURR_DAY, 0));
-				
-		editor.putFloat(PR_CURR_BALANCE, currBalance);		
+
+		editor.putFloat(PR_CURR_BALANCE, currBalance);
 		editor.putLong(PR_CURR_DAY, currDay);
-		
+
 		editor.putBoolean(PR_WAITING_RESPONSE, false);
-		
+
 		editor.commit();
-		
+
 		notifyWidgets();
 	}
-	
-	//Send broadcast to notify widgets about changes
-	private void notifyWidgets(){
-		Log.d(TAG, "Sending broadcast to notify widgets about changes"); 
+
+	// Send broadcast to notify widgets about changes
+	private void notifyWidgets() {
+		Log.d(TAG, "Sending broadcast to notify widgets about changes");
 		Intent updateIntent = new Intent(context, RefreshService.class);
-         context.startService(updateIntent);
+		context.startService(updateIntent);
 	}
-	
-	public void saveAppWidgetId(int id){
+
+	public void saveAppWidgetId(int id) {
 		SharedPreferences.Editor editor = s.edit();
 		editor.putInt(PR_WIDGET_ID, id);
 		editor.commit();
 	}
-	
-	public int getAppWidgetId(){
-        int awID = s.getInt(PR_WIDGET_ID, -100500);
-        return awID;
+
+	public int getAppWidgetId() {
+		int awID = s.getInt(PR_WIDGET_ID, -100500);
+		return awID;
 	}
-	
-	public boolean isInit(){
-		if (s.getInt(PR_WIDGET_ID, -100500) == -100500){
+
+	public boolean isInit() {
+		if (s.getInt(PR_WIDGET_ID, -100500) == -100500) {
 			return true;
 		}
 		return false;
@@ -184,80 +200,81 @@ public class BalanceModel {
 	public void saveOperatorId(int providerId) {
 		SharedPreferences.Editor editor = s.edit();
 		editor.putInt(PR_OPERATOR_ID, providerId);
-		editor.commit();		
+		editor.commit();
 	}
 
 	public int getOperatorId() {
-        return s.getInt(PR_OPERATOR_ID, 0);
+		return s.getInt(PR_OPERATOR_ID, 0);
 	}
 
 	public boolean isExpectedResponse(String incNumber) {
 		boolean isExpected = false;
 		int opId = getOperatorId();
-		//Life
-		if (opId == C.UA_LIFE_MCC_MNC && incNumber.equalsIgnoreCase(C.RESP_ADDR_UA_LIFE)){
+		// Life
+		if (opId == C.UA_LIFE_MCC_MNC
+				&& incNumber.equalsIgnoreCase(C.RESP_ADDR_UA_LIFE)) {
 			isExpected = true;
 		}
-		//MTS
-		if (opId == C.RU_MTS_MCC_MNC && incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MTS)){
+		// MTS
+		if (opId == C.RU_MTS_MCC_MNC
+				&& incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MTS)) {
 			isExpected = true;
 		}
-		//Megafon
-		if (opId == C.RU_MEGAFON_MCC_MNC && 
-				incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MEGA_2)){
+		// Megafon
+		if (opId == C.RU_MEGAFON_MCC_MNC
+				&& incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MEGA_2)) {
 			isExpected = true;
 		}
-		if (opId == C.RU_MEGAFON_MCC_MNC && 
-				incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MEGA_1)){
+		if (opId == C.RU_MEGAFON_MCC_MNC
+				&& incNumber.equalsIgnoreCase(C.RESP_ADDR_RU_MEGA_1)) {
 			isExpected = true;
 		}
-		
-		//Do we really waiting the response? Or request was sent manually?
+
+		// Do we really waiting the response? Or request was sent manually?
 		isExpected = isExpected && s.getBoolean(PR_WAITING_RESPONSE, false);
 
-		//Only for debug from Skype sms
-		if (incNumber.equalsIgnoreCase("aleksey.mas")){
+		// Only for debug from Skype sms
+		if (incNumber.equalsIgnoreCase("aleksey.mas")) {
 			isExpected = true;
 		}
-		
+
 		return isExpected;
 	}
-	
-	public String getRequestAddress(){
+
+	public String getRequestAddress() {
 		String address = "";
-		if (getOperatorId() == C.UA_LIFE_MCC_MNC){
+		if (getOperatorId() == C.UA_LIFE_MCC_MNC) {
 			address = C.REQ_ADDR_UA_LIFE;
-		}else if (getOperatorId() == C.RU_MTS_MCC_MNC){
+		} else if (getOperatorId() == C.RU_MTS_MCC_MNC) {
 			address = C.REQ_ADDR_RU_MTS;
-		}else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC){
+		} else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC) {
 			address = C.REQ_ADDR_RU_MEGA;
 		}
 		return address;
 	}
-	
-	public String getRequestMessage(){
+
+	public String getRequestMessage() {
 		String message = "";
-		if (getOperatorId() == C.UA_LIFE_MCC_MNC){
+		if (getOperatorId() == C.UA_LIFE_MCC_MNC) {
 			message = C.REQ_MSG_UA_LIFE;
-		}else if (getOperatorId() == C.RU_MTS_MCC_MNC){
+		} else if (getOperatorId() == C.RU_MTS_MCC_MNC) {
 			message = C.REQ_MSG_RU_MTS;
-		}else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC){
+		} else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC) {
 			message = C.REQ_MSG_RU_MEGA;
 		}
 		return message;
 	}
-	
-	public String getResponseAddress(){
+
+	public String getResponseAddress() {
 		String respAddress = "";
-		if (getOperatorId() == C.UA_LIFE_MCC_MNC){
+		if (getOperatorId() == C.UA_LIFE_MCC_MNC) {
 			respAddress = C.REQ_ADDR_UA_LIFE;
-		}else if (getOperatorId() == C.RU_MTS_MCC_MNC){
+		} else if (getOperatorId() == C.RU_MTS_MCC_MNC) {
 			respAddress = C.REQ_ADDR_RU_MTS;
-		}else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC){
+		} else if (getOperatorId() == C.RU_MEGAFON_MCC_MNC) {
 			respAddress = C.REQ_ADDR_RU_MEGA;
 		}
 		return respAddress;
 	}
-	
-	
+
 }

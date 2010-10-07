@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,13 +57,17 @@ public class PiBalance extends Activity {
         opName.setText(getString(R.string.lbl_operator_name) + " " +tm.getNetworkOperatorName());
         lastResp.setText(bm.getLastResponse());
         
+        //Linkify text in about section
+        TextView aboutView = (TextView) findViewById(R.id.tvAbout);
+        Linkify.addLinks(aboutView, Linkify.ALL);
+        
         sendBtn.setOnClickListener(new OnClickListener(){ 
  
             @Override 
             public void onClick(View view) { 
                 
                 try { 
-                    bm.sendSMSRequest();
+                    bm.sendSMSRequest(true);
                     Toast.makeText(getCtx(), R.string.not_request_sent, Toast.LENGTH_LONG).show();
                     Log.d(TAG, "SMS Sent");  
                 } catch (Exception e) { 
