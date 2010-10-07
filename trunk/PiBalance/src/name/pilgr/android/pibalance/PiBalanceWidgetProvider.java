@@ -35,7 +35,7 @@ public class PiBalanceWidgetProvider extends AppWidgetProvider {
 	public void onEnabled(Context context){
 		init(context);
 		saveOperatorId(context);
-		Controller.getInstance().setMidnightRefresh(context);//To clear the today box at midnight
+		//Controller.getInstance().setMidnightRefresh(context);//To clear the today box at midnight
 	}
 	
 	public void onDisabled(Context context){
@@ -49,7 +49,7 @@ public class PiBalanceWidgetProvider extends AppWidgetProvider {
 		}
 		bm.saveAppWidgetId(appWidgetId);
 		saveOperatorId(context);
-		Controller.getInstance().setMidnightRefresh(context);
+		//Controller.getInstance().setMidnightRefresh(context);
 		refreshWidgets(context);		
 	}
 	
