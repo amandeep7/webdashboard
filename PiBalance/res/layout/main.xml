@@ -37,7 +37,7 @@
     android:layout_height="wrap_content" 
     android:layout_margin = "5dp"    
     android:text="@string/init_last_response"
-    android:textSize = "15dp"
+    style="@style/usuallyFont"
     />	
     <Button android:id="@+id/sendSmsBtn" 
 	android:layout_width = "fill_parent"
@@ -45,7 +45,7 @@
  	android:layout_margin = "5dp"
  	android:layout_toRightOf = "@id/last_response"
  	android:layout_alignParentRight = "true"
- 	android:textSize = "15dp"
+ 	android:textSize = "15sp"
     android:text="@string/bt_request" /> 
     </RelativeLayout> 
 	    
@@ -71,7 +71,7 @@
 		    android:layout_height="wrap_content" 
 		    android:layout_marginLeft = "5dp"
 		    android:text = "@string/lbl_request_address"	
-		    android:textSize = "15dp"	    
+		    style="@style/usuallyFont"	    
 		    />
 	 <TextView
         android:id="@+id/ed_request_address"
@@ -80,7 +80,7 @@
         android:layout_marginLeft = "5dp"
         android:enabled = "false"        
 		android:layout_toRightOf = "@id/lbl_request_address"
-		android:textSize = "15dp"
+		style="@style/usuallyFont"
 		android:text = "ed_request_address"
        />
        	    
@@ -91,7 +91,7 @@
 		    android:layout_marginLeft = "5dp"
 		    android:text = "@string/lbl_request_message"
 		    android:layout_below="@id/ed_request_address"
-		    android:textSize = "15dp"
+		    style="@style/usuallyFont"
 		    />
 	<TextView
         android:id="@+id/ed_request_message"
@@ -102,7 +102,7 @@
 		android:layout_toRightOf = "@id/lbl_request_message"
 		android:layout_alignTop = "@id/lbl_request_message"
 		android:text = "ed_request_message"
-		android:textSize = "15dp"
+		style="@style/usuallyFont"
        />	    
 	 <TextView  
 		    android:id = "@+id/lbl_response_address"
@@ -111,7 +111,7 @@
 		    android:layout_marginLeft = "5dp"
 		    android:text = "@string/lbl_response_address"
 		    android:layout_below="@id/ed_request_message"
-		    android:textSize = "15dp"
+		    style="@style/usuallyFont"
 		    />	
 	<TextView
         android:id="@+id/ed_response_address"
@@ -122,7 +122,7 @@
 		android:layout_toRightOf = "@id/lbl_response_address"
 		android:layout_alignTop = "@id/lbl_response_address"
 		android:text = "resp_address"
-		android:textSize = "15dp"
+		style="@style/usuallyFont"
        />	
     <TextView
         android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
         android:layout_marginLeft = "5dp"       
 		android:layout_below = "@id/ed_response_address"
 		android:text = "*Чуточку позже можно будет подстроить эти параметры под вашего оператора"
-		android:textSize = "10dp"
+		android:textSize = "10sp"
        />           	    	    
    </RelativeLayout>
  
@@ -155,7 +155,7 @@
 		    android:layout_height="wrap_content" 
 		    android:layout_marginLeft = "5dp"
 		    android:text = "operator id"
-		    android:textSize = "15dp"
+		    style="@style/usuallyFont"
 		    />
     
     <TextView  
@@ -164,7 +164,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft = "5dp" 
 		    android:text = "operator name"
-		    android:textSize = "15dp"
+		    style="@style/usuallyFont"
     />
 
 	
@@ -185,7 +185,7 @@
     android:layout_height="wrap_content"
     android:layout_margin = "5dp"
     android:text="@string/version"  
-    android:textSize = "15dp"  />
+    style="@style/usuallyFont"  />
 
     <TextView 
     android:id = "@+id/tvAbout" 
@@ -193,7 +193,7 @@
     android:layout_height="wrap_content"
     android:layout_margin = "5dp" 
     android:text="@string/about"  
-    android:textSize = "15dp"  />
+    style="@style/usuallyFont"  />
     
     <TextView  
     android:layout_width="fill_parent" 
@@ -201,7 +201,7 @@
     android:layout_margin = "5dp" 
     android:textStyle = "bold"
     android:text="@string/note"  
-    android:textSize = "15dp"  />
+    style="@style/usuallyFont"  />
 
 <!--************    SHARE   ***************    -->
     <TextView   
