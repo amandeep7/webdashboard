@@ -45,7 +45,7 @@ public class PiBalanceWidgetProvider extends AppWidgetProvider {
 	public void updateAppWidget(Context context,
 			AppWidgetManager appWidgetManager, int appWidgetId) {
 		if (bm.isInit()){
-			bm.sendSMSRequest();
+			bm.sendSMSRequest(true);
 		}
 		bm.saveAppWidgetId(appWidgetId);
 		saveOperatorId(context);

@@ -54,7 +54,7 @@ public class PiPhoneStateListener extends PhoneStateListener {
 				  prevState == TelephonyManager.CALL_STATE_OFFHOOK){
 			  Log.d("DEBUG","We can send request");
 			  Log.d("DEBUG", ctx.toString());
-			  bm.sendSMSRequest();
+			  bm.sendSMSRequest(false);
 		  }
 		  prevState = new Integer(state);
 	  }

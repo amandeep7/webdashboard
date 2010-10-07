@@ -187,7 +187,8 @@
     android:text="@string/version"  
     android:textSize = "15dp"  />
 
-    <TextView  
+    <TextView 
+    android:id = "@+id/tvAbout" 
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content"
     android:layout_margin = "5dp" 

@@ -38,4 +38,6 @@ public class C {
 	public static final int RU_MTS_MCC_MNC = 25001;
 	public static final int RU_MEGAFON_MCC_MNC = 25002;
 
+	public static final long REQUEST_DELAY = 1*60*60*1000;//1h
+
 }
