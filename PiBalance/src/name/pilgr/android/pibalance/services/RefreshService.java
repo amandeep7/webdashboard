@@ -58,7 +58,7 @@ public class RefreshService extends WakefulIntentService {
 		int awID = bm.getAppWidgetId();
 		if (awID >= 0) {
 			awm.updateAppWidget(awID, views);
-			Controller.getInstance().setMidnightRefresh(ctx);
+			//Controller.getInstance().setMidnightRefresh(ctx);
 		}
 		Log.d(TAG, "Widget refreshed by service");
 	}
