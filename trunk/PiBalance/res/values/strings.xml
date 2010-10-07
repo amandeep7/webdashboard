@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Pi Баланс</string>
-    <string name="version">Pi Баланс (v 0.062b)</string>
+    <string name="app_name">piBalance</string>
+    <string name="version">piBalance beta-0.089)</string>
     <string name="note">Вся соль приложения — виджет. Обязательно добавте его на домашний экран</string>
-    <string name="about">Разработка — Алексей Масный (pilgr.name)\nГрафика — Ballista (austerlits@gmail.com)</string>
+    <string name="about">Разработка — Алексей Масный\npilgr.name\nГрафика — Ballista\nausterlits@gmail.com</string>
     <string name="parse_fail_msg">Ошибка анализа смс-сообщения</string>
     <string name="init_last_response">Вы добавили виджет на рабочий стол? Дождитесь обновления баланса</string>
     <string name="lbl_box_settings">Тюнинг</string>
@@ -13,9 +13,9 @@
     <string name="lbl_box_share">Поделиться</string>
     <string name="lbl_operator_id">ID оператора:</string>
     <string name="lbl_operator_name">Название оператора:</string>
-    <string name="lbl_request_address">Куда отправлять запрос:</string>
+    <string name="lbl_request_address">Отправлять запрос на:</string>
     <string name="lbl_request_message">Текст запроса:</string>
-    <string name="lbl_response_address">С какого номера ожидать ответа:</string>
+    <string name="lbl_response_address">Ожидать ответ от:</string>
     
     <string name="bt_request">Обновить</string>
     <string name="not_request_sent">Запрос отправлен. Ожидаем ответа</string>
