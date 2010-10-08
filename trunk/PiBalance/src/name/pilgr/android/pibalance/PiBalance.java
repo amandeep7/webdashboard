@@ -37,22 +37,10 @@ public class PiBalance extends Activity {
         
         Button sendBtn = (Button)findViewById(R.id.sendSmsBtn); 
         Button dbgBtn = (Button)findViewById(R.id.dbgBtn);
-        
 
         opId = (TextView)findViewById(R.id.netwOperatorId);
         opName = (TextView)findViewById(R.id.netwOperatorName);
-        lastResp = (TextView)findViewById(R.id.last_response);
         
-        lblBalance =  (TextView)findViewById(R.id.lbl_box_balance);
-        
-        String balBox = getString(R.string.lbl_box_balance) + ": " + bm.getCurrentBalance();
-        float flToday = bm.getTodayChange();
-        String strToday = new BigDecimal(flToday).setScale(2, RoundingMode.UP).toString();
-        if (flToday > 0){
-        	strToday = "+" + flToday;
-        }
-        balBox += " " + getString(R.string.lbl_box_change_today) + ": " + strToday;
-        lblBalance.setText(balBox);
         
         reqAddress = (TextView)findViewById(R.id.ed_request_address);
         reqMessage = (TextView)findViewById(R.id.ed_request_message);
@@ -64,7 +52,6 @@ public class PiBalance extends Activity {
         TelephonyManager tm = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
         opId.setText(getString(R.string.lbl_operator_id) + " " + tm.getNetworkOperator());
         opName.setText(getString(R.string.lbl_operator_name) + " " +tm.getNetworkOperatorName());
-        lastResp.setText(bm.getLastResponse());
         
         //Linkify text in about section
         TextView aboutView = (TextView) findViewById(R.id.tvAbout);
@@ -104,6 +91,12 @@ public class PiBalance extends Activity {
         
     }
     
+    @Override
+    public void onStart(){
+    	super.onStart();
+    	refreshBalance();
+    }
+    
     private void call(String ussdCode){
     	 
         try { 
@@ -116,6 +109,22 @@ public class PiBalance extends Activity {
     
     private Context getCtx(){
     	return (Context)this;
+    }
+    
+    private void refreshBalance(){
+    	lastResp = (TextView)findViewById(R.id.last_response);        
+        lblBalance =  (TextView)findViewById(R.id.lbl_box_balance);
+        
+        lastResp.setText(bm.getLastResponse());
+        
+        String balBox = getString(R.string.lbl_box_balance) + ": " + bm.getCurrentBalance();
+        float flToday = bm.getTodayChange();
+        String strToday = new BigDecimal(flToday).setScale(2, RoundingMode.UP).toString();
+        if (flToday > 0){
+        	strToday = "+" + flToday;
+        }
+        balBox += " " + getString(R.string.lbl_box_change_today) + ": " + strToday;
+        lblBalance.setText(balBox);        
     }
     
       
