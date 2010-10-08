@@ -76,7 +76,7 @@ public class PiBalance extends Activity {
         	 
             @Override 
             public void onClick(View view) { 
-                if (bm.getOperatorId() == C.DEBUG_ANDROID_MCC_MNC){
+              /*  if (bm.getOperatorId() == C.DEBUG_ANDROID_MCC_MNC){
                 	bm.saveOperatorId(C.UA_LIFE_MCC_MNC);
                 }
                 else if (bm.getOperatorId() == C.UA_LIFE_MCC_MNC){
@@ -85,7 +85,7 @@ public class PiBalance extends Activity {
                 	bm.saveOperatorId(C.RU_MEGAFON_MCC_MNC);
                 } else if (bm.getOperatorId() == C.RU_MEGAFON_MCC_MNC){
                 	bm.saveOperatorId(C.UA_LIFE_MCC_MNC);
-                }
+                }*/
                 bm.storeResponse("Ваш баланс 10 тугриков");                
             }}); 
         
