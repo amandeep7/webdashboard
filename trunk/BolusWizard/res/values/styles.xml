@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="brakebox">
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/brakebox</item>\
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">5dp</item>
+    </style>
+    <style name="usualText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">2dp</item>
+      </style>
+</resources>
