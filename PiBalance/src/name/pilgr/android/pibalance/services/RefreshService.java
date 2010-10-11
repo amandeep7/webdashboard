@@ -1,5 +1,7 @@
 package name.pilgr.android.pibalance.services;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -60,6 +62,13 @@ public class RefreshService extends WakefulIntentService {
 			awm.updateAppWidget(awID, views);
 			//Controller.getInstance().setMidnightRefresh(ctx);
 		}
+		
+		GoogleAnalyticsTracker tracker = GoogleAnalyticsTracker.getInstance();
+		tracker.start(C.GA_UA_NUMBER, ctx);
+		tracker.trackPageView("/widget_refreshed");
+		tracker.dispatch();
+		tracker.stop();
+		
 		Log.d(TAG, "Widget refreshed by service");
 	}
 
