@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bolus Wizard</string>
+        
+    <string name="btnEstimate">Estimate</string>
+    <string name="lblParametersBox">Parameters</string> 
+    <string name="lblResultsBox">Results</string> 
+    
+</resources>

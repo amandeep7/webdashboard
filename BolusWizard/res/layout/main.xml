@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id = "@+id/main"
+    >
+<ScrollView 
+	android:id="@+id/scrllvwNo1" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content">
+<RelativeLayout 
+	 		android:layout_width="fill_parent"
+    		android:layout_height="fill_parent">
+    
+    <DigitalClock 
+		android:id = "@+id/digiClock"
+		android:layout_centerHorizontal = "true"
+		android:layout_height = "wrap_content"
+		android:layout_width = "wrap_content"
+		android:textSize = "30sp"/> 
+    
+    <!--************    PARAMETERS   ***************    -->    
+    <TextView 
+    		android:id = "@+id/boxParameters" 
+    		android:layout_below = "@id/digiClock" 
+		    style="@style/brakebox"
+		    android:text="@string/lblParametersBox"  
+		    />		
+	<EditText
+		android:id = "@+id/edtBloodGlucose"
+		android:layout_below = "@id/boxParameters"
+		android:layout_alignParentLeft = "true"
+		android:layout_height = "wrap_content"
+		android:layout_width = "100dp"
+		style = "@style/usualText"
+   		android:text = "0"
+   		android:numeric = "decimal"
+   			/>
+   	<EditText
+		android:id = "@+id/edtCarbohydrate"
+		android:layout_below = "@id/edtBloodGlucose"
+		android:layout_alignParentLeft = "true"
+		android:layout_height = "wrap_content"
+		android:layout_width = "100dp"
+		style = "@style/usualText"
+   		android:text = "0"
+   		android:numeric = "decimal"
+   			/>	
+   	<Button 
+   		android:id="@+id/btnEstimate" 
+   		android:layout_below = "@id/edtCarbohydrate"
+   		android:layout_alignParentLeft = "true"
+   		android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        style = "@style/usualText"
+        android:text="@string/btnEstimate"
+            /> 
+    <TextView  
+	    android:id="@+id/lblBloodGlucoseMeasure"
+	    android:layout_toRightOf = "@id/edtBloodGlucose"
+	    android:layout_alignBaseline = "@id/edtBloodGlucose"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    style = "@style/usualText"
+	    android:text="BG Measure"
+   			/>	
+   	<TextView  
+	    android:id="@+id/lblCarbohydrateMeasure"
+	    android:layout_toRightOf = "@id/edtCarbohydrate"
+	    android:layout_alignBaseline = "@id/edtCarbohydrate"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    style = "@style/usualText"
+	    android:text="Carbohydrate Measure"
+   			/>			         
+    <!--************    RESULTS   ***************    -->    
+    <TextView 
+    		android:id = "@+id/boxResults" 
+    		android:layout_below = "@id/btnEstimate" 
+		    style="@style/brakebox"
+		    android:text="@string/lblResultsBox"  
+		    
+		    />		
+ 			
+   			
+    		
+</RelativeLayout>    		
+
+</ScrollView>
+</LinearLayout>
