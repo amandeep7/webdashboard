@@ -7,7 +7,7 @@ public class C {
 	public static final String PREFS_NAME = "currentData";
 	
 	/*At this time other application (SMS/MMS manager) process and store SMS*/
-	public static final int SAVE_SMS_TIMEOUT = 6000;
+	public static final int DEL_SMS_TIMEOUT = 7000;
 	
 	/*Operator specific constants*/
 	/*UA LIFE*/
@@ -39,5 +39,16 @@ public class C {
 	public static final int RU_MEGAFON_MCC_MNC = 25002;
 
 	public static final long REQUEST_DELAY = 1*60*60*1000;//1h
+	
+	//The UA number for google analytics
+	public static final String GA_UA_NUMBER = "UA-8499033-6";
+
+	protected static final String GA_CAT = "Tracker";
+	protected static final String GA_MAN_REQ = "Manual_request";
+	protected static final String GA_AUTO_REQ = "Auto_request";
+	protected static final String GA_REQ_SENT = "sent";
+	protected static final String GA_RESP_REC = "received";
+	
+	
 
 }

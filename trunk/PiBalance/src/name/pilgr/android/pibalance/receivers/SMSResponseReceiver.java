@@ -80,7 +80,7 @@ public class SMSResponseReceiver extends BroadcastReceiver {
 						cancelNotification(ctx);
 						Log.d(TAG, "Finish post delayed processing");
 					}
-				}, 5000);
+				}, C.DEL_SMS_TIMEOUT);
 
 				// Only for debug
 				Log.d(TAG, "Responce processed");

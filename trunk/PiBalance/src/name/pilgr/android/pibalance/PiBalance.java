@@ -3,6 +3,8 @@ package name.pilgr.android.pibalance;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import com.google.android.apps.analytics.GoogleAnalyticsTracker;
+
 import name.pilgr.android.pibalance.R;
 import name.pilgr.android.pibalance.model.BalanceModel;
 import android.app.Activity;
@@ -26,14 +28,16 @@ public class PiBalance extends Activity {
 	private BalanceModel bm;
 	private static final String TAG = PiBalance.class.getSimpleName(); 
 	
+	GoogleAnalyticsTracker tracker;
+	
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         
+    	super.onCreate(savedInstanceState);    	
     	bm = new BalanceModel((Context)this);
     	
-    	super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+    	setContentView(R.layout.main);
         
         Button sendBtn = (Button)findViewById(R.id.sendSmsBtn); 
         Button dbgBtn = (Button)findViewById(R.id.dbgBtn);
@@ -65,7 +69,8 @@ public class PiBalance extends Activity {
                 try { 
                     bm.sendSMSRequest(true);
                     Toast.makeText(getCtx(), R.string.not_request_sent, Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "SMS Sent");  
+                    Log.d(TAG, "SMS Sent");
+                    tracker.trackEvent(C.GA_CAT, C.GA_MAN_REQ, C.GA_REQ_SENT, 1);
                 } catch (Exception e) { 
                     Log.e(TAG, "Failed to send SMS"); 
                     e.printStackTrace(); 
@@ -86,7 +91,8 @@ public class PiBalance extends Activity {
                 } else if (bm.getOperatorId() == C.RU_MEGAFON_MCC_MNC){
                 	bm.saveOperatorId(C.UA_LIFE_MCC_MNC);
                 }*/
-                bm.storeResponse("Ваш баланс 10 тугриков");                
+                bm.storeResponse("Ваш баланс 10 тугриков");  
+                tracker.trackEvent(C.GA_CAT, "Button", "debug", 1);
             }}); 
         
     }
@@ -94,7 +100,12 @@ public class PiBalance extends Activity {
     @Override
     public void onStart(){
     	super.onStart();
-    	refreshBalance();
+    	refreshBalanceView();
+    	
+    	tracker = GoogleAnalyticsTracker.getInstance();
+    	tracker.start(C.GA_UA_NUMBER, 5, this);
+    	tracker.trackPageView("/main");
+    	
     }
     
     private void call(String ussdCode){
@@ -111,7 +122,7 @@ public class PiBalance extends Activity {
     	return (Context)this;
     }
     
-    private void refreshBalance(){
+    private void refreshBalanceView(){
     	lastResp = (TextView)findViewById(R.id.last_response);        
         lblBalance =  (TextView)findViewById(R.id.lbl_box_balance);
         
@@ -121,10 +132,17 @@ public class PiBalance extends Activity {
         float flToday = bm.getTodayChange();
         String strToday = new BigDecimal(flToday).setScale(2, RoundingMode.UP).toString();
         if (flToday > 0){
-        	strToday = "+" + flToday;
+        	strToday = "+" + strToday;
         }
         balBox += " " + getString(R.string.lbl_box_change_today) + ": " + strToday;
         lblBalance.setText(balBox);        
+    }
+    
+    @Override
+    protected void onDestroy() {
+      super.onDestroy();
+      // Stop the tracker when it is no longer needed.
+      tracker.stop();
     }
     
       

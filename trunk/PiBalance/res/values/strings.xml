@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">piBalance</string>
-    <string name="version">piBalance beta-0.091</string>
+    <string name="version">piBalance beta-0.095</string>
     <string name="note">Вся соль приложения — виджет. Обязательно добавте его на домашний экран</string>
     <string name="about">Разработка — Алексей Масный\npilgr.name\nГрафика — Ballista\nausterlits@gmail.com</string>
     <string name="parse_fail_msg">Ошибка анализа смс-сообщения</string>
