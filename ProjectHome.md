@@ -1,0 +1,1 @@
+WebDashboard uses for monitoring and analyze various data in real-time.
